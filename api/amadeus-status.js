@@ -37,6 +37,8 @@ module.exports = async function handler(req, res) {
         ? "test"
         : "production",
       error,
+      notice:
+        "Amadeus Self-Service portal was decommissioned on 2026-07-17. Free self-service key signup is no longer available. Existing keys (if any) may already be disabled. Enterprise Amadeus requires sales access. Alternatives: Duffel, Kiwi Tequila, Travelpayouts.",
       envPresent: {
         AMADEUS_CLIENT_ID: Boolean(process.env.AMADEUS_CLIENT_ID),
         AMADEUS_CLIENT_SECRET: Boolean(process.env.AMADEUS_CLIENT_SECRET),
