@@ -5,23 +5,25 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Local / secrets
+# Secrets & local env (never commit)
 .env
-.env.*`n!.env.example
+.env.*
 !.env.example
-.vercel
-chrome-profile/
+.duffel-creds.json
+.vercel/
+
+# Dependencies
 node_modules/
 
-# Dev artifacts (keep site lean)
+# Dev / capture artifacts
 preview-*.png
 v2-*.png
+amadeus-*.png
+duffel-*.png
+duffel-*.html
+compare_deploy.py
 check_*.py
 __pycache__/
 *.pyc
-
-# Optional local Python server cache noise
 .cache/
-
-.vercel
-.env*
+chrome-profile/

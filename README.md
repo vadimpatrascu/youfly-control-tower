@@ -1,11 +1,14 @@
 # YouFly ∞ Control Tower
 
-Sales-ready flight booking UI for Chișinău (KIV) + live ADS-B radar.
+Sales-ready flight booking UI for Chișinău (KIV/RMO) + live Duffel inventory + ADS-B radar.
+
+**Full status snapshot:** see [`PROJECT_STATUS.md`](./PROJECT_STATUS.md)
 
 ## Production
 
 - **Site:** https://youfly-control-tower.vercel.app/
 - **GitHub:** https://github.com/vadimpatrascu/youfly-control-tower
+- **Supplier check:** https://youfly-control-tower.vercel.app/api/supplier-status
 
 ### Sales funnel
 
