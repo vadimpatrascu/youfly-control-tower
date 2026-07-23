@@ -7,7 +7,7 @@ Thumbs.db
 
 # Local / secrets
 .env
-.env.*
+.env.*`n!.env.example
 !.env.example
 .vercel
 chrome-profile/
@@ -22,3 +22,6 @@ __pycache__/
 
 # Optional local Python server cache noise
 .cache/
+
+.vercel
+.env*
