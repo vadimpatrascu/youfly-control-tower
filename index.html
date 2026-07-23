@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html><head>
+<title>YouFly — Zboară din Chișinău</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./assets/4289ac96-faf0-4bb2-b6dd-be3625fa83aa.js"></script>
+<style>
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+  html { scroll-behavior: smooth; }
+  :root { --accent: #FF6B4A; }
+</style>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<style>/* latin-ext */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/d69a5d04-47ee-4cbc-b627-ced9bf6901e3.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/3607a7b0-88d9-499f-affa-abfd4347b506.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/c8d5442a-69ba-459c-8a57-937c9e883751.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Instrument Serif';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/72a85cc5-8028-4c1c-88d4-c917dc0bbc26.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/0c0a75db-0b0a-4737-ba7b-72fd0eec5e7e.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/68496fe3-6bf6-476a-a93e-cd6c921b237f.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/308695ab-28e2-43be-b658-0eb368e8b82b.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./assets/0c0a75db-0b0a-4737-ba7b-72fd0eec5e7e.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./assets/68496fe3-6bf6-476a-a93e-cd6c921b237f.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./assets/308695ab-28e2-43be-b658-0eb368e8b82b.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/0c0a75db-0b0a-4737-ba7b-72fd0eec5e7e.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/68496fe3-6bf6-476a-a93e-cd6c921b237f.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("./assets/308695ab-28e2-43be-b658-0eb368e8b82b.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/0c0a75db-0b0a-4737-ba7b-72fd0eec5e7e.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/68496fe3-6bf6-476a-a93e-cd6c921b237f.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Space Grotesk';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/308695ab-28e2-43be-b658-0eb368e8b82b.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/557df550-be33-46d7-baa3-d6c40d2906a4.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/57ddcdf9-5348-450d-ba48-63f9386f9fb0.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/cbe08237-cd8f-4418-a438-a19ac3ef0eb5.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/f761c6d0-8e45-4d5a-b661-1baed4233949.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/efb1f322-7876-4739-8d1c-91bafd63fe1b.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./assets/db5bc887-41a7-41e7-b745-973c9a14d3b6.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/45ca609c-6f86-486f-8c15-87737b9c17bf.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/bbd1afdd-cfac-442c-94ac-c7546ac19c2e.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./assets/35820258-64c1-404f-9774-406925b15d65.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>
+  html, body { margin: 0; padding: 0; background: #0B1524; }
+  body { font-family: 'Space Grotesk', sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: var(--accent, #FF6B4A); }
+  ::selection { background: var(--accent, #FF6B4A); color: #0B1524; }
+  input, select, button { font-family: inherit; }
+  @keyframes flapIn { from { transform: rotateX(-92deg); opacity: 0.2; } to { transform: rotateX(0deg); opacity: 1; } }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: none; } }
+  @keyframes revealUp { from { opacity: 0; transform: translateY(52px); } to { opacity: 1; transform: none; } }
+  @keyframes marqueeX { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes blinkPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  @keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  @keyframes dashDrift { to { background-position: 40px 0; } }
+</style>
+</helmet>
+
+<div style="background: #0B1524; color: #F7F2E8; overflow: hidden;">
+
+  <!-- ============ PROMO STRIP ============ -->
+  <sc-if value="{{ showPromo }}" hint-placeholder-val="{{ true }}">
+    <div data-screen-label="Promo strip" style="background: var(--accent, #FF6B4A); color: #0B1524; display: flex; align-items: center; justify-content: center; gap: 16px; padding: 10px 24px; font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.08em;">
+      <span style="width: 8px; height: 8px; background: #0B1524; transform: rotate(45deg); flex: none;"></span>
+      <span>PROMO DE VARĂ — PÂNĂ LA −30% PE RUTE SELECTATE · COD: ZBOR30</span>
+      <a href="#oferte" style="text-decoration: underline; text-underline-offset: 3px;">Vezi ofertele →</a>
+    </div>
+  </sc-if>
+
+  <!-- ============ HERO ============ -->
+  <section data-screen-label="Hero" style="position: relative; background: #0B1524; padding: 0 0 96px;">
+    <!-- decor: dashed circles + glow -->
+    <div style="position: absolute; inset: 0; pointer-events: none; overflow: hidden;">
+      <div style="position: absolute; top: -220px; right: -180px; width: 640px; height: 640px; border-radius: 50%; border: 1px dashed rgba(247,242,232,0.14);"></div>
+      <div style="position: absolute; top: -140px; right: -100px; width: 420px; height: 420px; border-radius: 50%; border: 1px dashed rgba(247,242,232,0.10);"></div>
+      <div style="position: absolute; bottom: -260px; left: -220px; width: 560px; height: 560px; border-radius: 50%; border: 1px dashed rgba(247,242,232,0.10);"></div>
+      <div style="position: absolute; top: -120px; left: 30%; width: 700px; height: 480px; background: radial-gradient(closest-side, rgba(255,107,74,0.14), transparent 70%);"></div>
+    </div>
+
+    <!-- nav -->
+    <nav style="position: relative; z-index: 5; max-width: 1240px; margin: 0 auto; display: flex; align-items: center; gap: 32px; padding: 24px 32px;">
+      <a href="#" style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 22px; letter-spacing: -0.02em;">
+        <span style="width: 14px; height: 14px; background: var(--accent, #FF6B4A); transform: rotate(45deg); flex: none;"></span>
+        YouFly
+      </a>
+      <div style="display: flex; align-items: center; gap: 28px; margin-left: auto; font-size: 15px; color: rgba(247,242,232,0.75);">
+        <a href="#rute">Destinații</a>
+        <a href="#oferte">Oferte</a>
+        <a href="#cum">Cum funcționează</a>
+        <span style="font-family: 'Space Mono', monospace; font-size: 12px; border: 1px solid rgba(247,242,232,0.25); padding: 4px 10px; border-radius: 999px;">RO</span>
+        <a href="#" style="background: #F7F2E8; color: #0B1524; padding: 10px 20px; border-radius: 999px; font-weight: 600;" style-hover="background: var(--accent, #FF6B4A); color: #0B1524;">Rezervarea mea</a>
+      </div>
+    </nav>
+
+    <!-- headline -->
+    <div style="position: relative; z-index: 4; max-width: 1240px; margin: 0 auto; padding: 72px 32px 0; text-align: center;">
+      <div style="display: inline-flex; align-items: center; gap: 10px; font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.14em; color: rgba(247,242,232,0.6); animation: heroIn 0.7s 0.05s cubic-bezier(0.2,0.8,0.2,1) both;">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: var(--accent, #FF6B4A); animation: blinkPulse 2s infinite;"></span>
+        CHIȘINĂU (KIV) · 25+ COMPANII AERIENE · PREȚURI ÎN TIMP REAL
+      </div>
+      <h1 style="margin: 26px 0 0; font-size: clamp(48px, 6.4vw, 88px); line-height: 1.02; letter-spacing: -0.03em; font-weight: 700; animation: heroIn 0.7s 0.15s cubic-bezier(0.2,0.8,0.2,1) both;">Zboară spre</h1>
+      <div style="display: flex; justify-content: center; margin-top: 22px; font-size: clamp(34px, 4.6vw, 60px); perspective: 900px; animation: heroIn 0.7s 0.25s cubic-bezier(0.2,0.8,0.2,1) both;">{{ flapBoard }}</div>
+      <p style="margin: 28px auto 0; max-width: 560px; font-family: 'Instrument Serif', serif; font-style: italic; font-size: 24px; line-height: 1.4; color: rgba(247,242,232,0.72); animation: heroIn 0.7s 0.35s cubic-bezier(0.2,0.8,0.2,1) both;">Compară sute de companii aeriene, fără taxe ascunse — rezervi în mai puțin de cinci minute.</p>
+    </div>
+
+    <!-- boarding-pass search card -->
+    <div style="position: relative; z-index: 4; max-width: 1020px; margin: 56px auto 0; padding: 0 32px; animation: heroIn 0.8s 0.45s cubic-bezier(0.2,0.8,0.2,1) both;">
+      <div style="position: relative; background: #F7F2E8; color: #16233B; border-radius: 20px; box-shadow: 0 40px 80px -24px rgba(0,0,0,0.55);">
+        <!-- ticket header -->
+        <div style="display: flex; align-items: center; gap: 16px; padding: 20px 32px 0;">
+          <div style="display: flex; gap: 8px;">
+            <button sc-camel-on-click="{{ setTripOne }}" style="border: 1px solid #16233B; border-radius: 999px; padding: 9px 20px; font-size: 14px; font-weight: 600; cursor: pointer; background: {{ oneBg }}; color: {{ oneColor }};">Dus</button>
+            <button sc-camel-on-click="{{ setTripRound }}" style="border: 1px solid #16233B; border-radius: 999px; padding: 9px 20px; font-size: 14px; font-weight: 600; cursor: pointer; background: {{ roundBg }}; color: {{ roundColor }};">Dus-întors</button>
+          </div>
+          <span style="margin-left: auto; font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: #8A8474;">BOARDING PASS · ECONOMICĂ</span>
+        </div>
+
+        <!-- route row -->
+        <div style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; padding: 24px 32px 8px;">
+          <div style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #8A8474;">DE LA</span>
+            <span style="font-size: 34px; font-weight: 700; letter-spacing: -0.02em;">Chișinău</span>
+            <span style="font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent, #FF6B4A); font-weight: 700;">KIV · Aeroportul Internațional</span>
+          </div>
+          <button sc-camel-on-click="{{ swap }}" title="Schimbă direcția" style="width: 52px; height: 52px; border-radius: 50%; border: 1px dashed #16233B; background: transparent; color: #16233B; font-size: 20px; cursor: pointer; transition: transform 0.3s;" style-hover="transform: rotate(180deg); background: #16233B; color: #F7F2E8;">⇄</button>
+          <div style="display: flex; flex-direction: column; gap: 6px; text-align: right;">
+            <span style="font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: #8A8474;">PÂNĂ LA</span>
+            <sc-raw-select sc-camel-on-change="{{ setTo }}" value="{{ toValue }}" style="appearance: none; border: none; background: transparent; font-family: 'Space Grotesk', sans-serif; font-size: 34px; font-weight: 700; letter-spacing: -0.02em; color: #16233B; text-align: right; cursor: pointer; padding: 0;">
+              <option value="Londra|LTN">Londra</option>
+              <option value="București|OTP">București</option>
+              <option value="Istanbul|IST">Istanbul</option>
+              <option value="Viena|VIE">Viena</option>
+              <option value="Barcelona|BCN">Barcelona</option>
+              <option value="Paris|BVA">Paris</option>
+              <option value="Milano|BGY">Milano</option>
+              <option value="Tel Aviv|TLV">Tel Aviv</option>
+            </sc-raw-select>
+            <span style="font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent, #FF6B4A); font-weight: 700;">{{ toCode }} · alege destinația ▾</span>
+          </div>
+        </div>
+
+        <!-- dates + pax -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; padding: 12px 32px 20px;">
+          <label style="display: flex; flex-direction: column; gap: 6px; border: 1px solid #DCD4C2; border-radius: 12px; padding: 12px 16px; background: #FFFDF8;">
+            <span style="font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #8A8474;">PLECARE</span>
+            <input type="date" value="2026-07-24" style="border: none; background: transparent; font-size: 16px; font-weight: 600; color: #16233B; color-scheme: light; padding: 0; outline: none;">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px; border: 1px solid #DCD4C2; border-radius: 12px; padding: 12px 16px; background: #FFFDF8; opacity: {{ retOpacity }};">
+            <span style="font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #8A8474;">ÎNTOARCERE</span>
+            <input type="date" value="2026-07-31" style="border: none; background: transparent; font-size: 16px; font-weight: 600; color: #16233B; color-scheme: light; padding: 0; outline: none;">
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px; border: 1px solid #DCD4C2; border-radius: 12px; padding: 12px 16px; background: #FFFDF8;">
+            <span style="font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.16em; color: #8A8474;">PASAGERI · CLASĂ</span>
+            <span style="font-size: 16px; font-weight: 600;">1 pasager · Economică</span>
+          </label>
+        </div>
+
+        <!-- quick chips -->
+        <div style="display: flex; gap: 8px; padding: 0 32px 24px; flex-wrap: wrap;">
+          <sc-for list="{{ quickDates }}" as="q" hint-placeholder-count="5">
+            <span style="font-family: 'Space Mono', monospace; font-size: 12px; border: 1px solid #DCD4C2; border-radius: 999px; padding: 6px 14px; color: #6B6455; cursor: pointer;" style-hover="border-color: #16233B; color: #16233B;">{{ q }}</span>
+          </sc-for>
+        </div>
+
+        <!-- perforated divider -->
+        <div style="position: relative; height: 0; border-top: 2px dashed #CFC6B2;">
+          <span style="position: absolute; left: -14px; top: -14px; width: 28px; height: 28px; border-radius: 50%; background: #0B1524;"></span>
+          <span style="position: absolute; right: -14px; top: -14px; width: 28px; height: 28px; border-radius: 50%; background: #0B1524;"></span>
+        </div>
+
+        <!-- ticket stub -->
+        <div style="display: flex; align-items: center; gap: 24px; padding: 20px 32px 24px;">
+          <div style="height: 36px; flex: 1; max-width: 220px; background: repeating-linear-gradient(90deg, #16233B 0 2px, transparent 2px 5px); opacity: 0.85;"></div>
+          <span style="font-family: 'Space Mono', monospace; font-size: 12px; color: #8A8474;">KIV → {{ toCode }} · {{ tripLabel }}</span>
+          <button style="margin-left: auto; background: var(--accent, #FF6B4A); color: #14100D; border: none; border-radius: 999px; padding: 16px 36px; font-size: 17px; font-weight: 700; cursor: pointer; box-shadow: 0 12px 28px -10px rgba(255,107,74,0.7); transition: transform 0.2s;" style-hover="transform: translateY(-2px);">Caută zboruri →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- stats -->
+    <div style="position: relative; z-index: 3; max-width: 1020px; margin: 44px auto 0; padding: 0 32px; display: flex; justify-content: center; gap: 64px; animation: heroIn 0.8s 0.6s cubic-bezier(0.2,0.8,0.2,1) both;">
+      <div style="text-align: center;">
+        <div style="font-size: 40px; font-weight: 700; letter-spacing: -0.02em;">{{ statAirlines }}</div>
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: rgba(247,242,232,0.55); margin-top: 4px;">COMPANII AERIENE</div>
+      </div>
+      <div style="width: 1px; background: rgba(247,242,232,0.15);"></div>
+      <div style="text-align: center;">
+        <div style="font-size: 40px; font-weight: 700; letter-spacing: -0.02em;">{{ statDest }}</div>
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: rgba(247,242,232,0.55); margin-top: 4px;">DESTINAȚII</div>
+      </div>
+      <div style="width: 1px; background: rgba(247,242,232,0.15);"></div>
+      <div style="text-align: center;">
+        <div style="font-size: 40px; font-weight: 700; letter-spacing: -0.02em;">5 min</div>
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: rgba(247,242,232,0.55); margin-top: 4px;">TIMP MEDIU REZERVARE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DEPARTURE BOARD ============ -->
+  <section data-screen-label="Departure board" style="background: #0E1930; border-top: 1px solid rgba(247,242,232,0.08); padding: 88px 32px;">
+    <div style="max-width: 1240px; margin: 0 auto; animation: revealUp 1ms linear both; animation-timeline: view(); animation-range: entry 0% entry 35%;">
+      <div style="display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 10px; font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.14em; color: var(--accent, #FF6B4A);">
+          <span style="width: 8px; height: 8px; background: var(--accent, #FF6B4A); transform: rotate(45deg);"></span>
+          PLECĂRI ASTĂZI
+        </div>
+        <h2 style="margin: 0; font-size: clamp(32px, 3.6vw, 48px); font-weight: 700; letter-spacing: -0.02em;">Chișinău Intl <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; color: rgba(247,242,232,0.6);">— tabloul plecărilor</span></h2>
+        <span style="margin-left: auto; display: inline-flex; align-items: center; gap: 8px; font-family: 'Space Mono', monospace; font-size: 12px; color: rgba(247,242,232,0.55);"><span style="width: 7px; height: 7px; border-radius: 50%; background: #2FBF8F; animation: blinkPulse 1.6s infinite;"></span>LIVE · prețuri actualizate</span>
+      </div>
+
+      <div style="margin-top: 36px; border: 1px solid rgba(247,242,232,0.1); border-radius: 16px; overflow: hidden; background: #0B1524;">
+        <div style="display: grid; grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr 1.2fr; gap: 12px; padding: 14px 28px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(247,242,232,0.45); border-bottom: 1px solid rgba(247,242,232,0.08);">
+          <span>DESTINAȚIE</span><span>ZBOR</span><span>PLECARE</span><span>DURATĂ</span><span>PREȚ</span><span style="text-align: right;">STATUS</span>
+        </div>
+        <sc-for list="{{ boardRows }}" as="row" hint-placeholder-count="6">
+          <div style="display: grid; grid-template-columns: 2.2fr 1fr 1fr 1fr 1fr 1.2fr; gap: 12px; align-items: center; padding: 18px 28px; border-bottom: 1px solid rgba(247,242,232,0.06); font-family: 'Space Mono', monospace; font-size: 15px; animation: revealUp 0.6s {{ row.delay }} cubic-bezier(0.2,0.8,0.2,1) both; animation-timeline: view(); animation-range: entry 0% entry 30%; cursor: pointer;" style-hover="background: rgba(247,242,232,0.04);">
+            <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 18px; letter-spacing: 0.02em;">{{ row.city }} <span style="color: rgba(247,242,232,0.4); font-family: 'Space Mono', monospace; font-size: 13px;">{{ row.code }}</span></span>
+            <span style="color: rgba(247,242,232,0.7);">{{ row.flight }}</span>
+            <span style="color: rgba(247,242,232,0.7);">{{ row.time }}</span>
+            <span style="color: rgba(247,242,232,0.7);">{{ row.dur }}</span>
+            <span style="color: var(--accent, #FF6B4A); font-weight: 700;">{{ row.price }}</span>
+            <span style="text-align: right; font-size: 12px; letter-spacing: 0.1em; color: {{ row.statusColor }}; animation: {{ row.statusAnim }};">{{ row.status }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <!-- airline marquee -->
+      <div style="margin-top: 56px; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);">
+        <div style="display: flex; gap: 72px; width: max-content; align-items: center; animation: marqueeX {{ marqueeDur }} linear infinite;">
+          <sc-for list="{{ airlinesLoop }}" as="al" hint-placeholder-count="10">
+            <div style="display: flex; align-items: center; gap: 12px; opacity: 0.75;">
+              <img src="{{ al.src }}" alt="{{ al.name }}" style="height: 34px; width: auto; filter: grayscale(1) brightness(1.6);">
+              <span style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.1em; color: rgba(247,242,232,0.5);">{{ al.name }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ POPULAR ROUTES ============ -->
+  <section id="rute" data-screen-label="Rute populare" style="background: #F7F2E8; color: #16233B; padding: 104px 32px;">
+    <div style="max-width: 1240px; margin: 0 auto;">
+      <div style="display: flex; align-items: flex-end; gap: 24px; flex-wrap: wrap; animation: revealUp 1ms linear both; animation-timeline: view(); animation-range: entry 0% entry 40%;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px; font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.14em; color: var(--accent, #FF6B4A);">
+            <span style="width: 8px; height: 8px; background: var(--accent, #FF6B4A); transform: rotate(45deg);"></span>
+            RUTE POPULARE
+          </div>
+          <h2 style="margin: 14px 0 0; font-size: clamp(36px, 4vw, 56px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;">Destinațiile preferate <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;">ale moldovenilor</span></h2>
+        </div>
+        <p style="margin: 0 0 6px auto; max-width: 320px; font-size: 16px; line-height: 1.5; color: #6B6455;">Prețuri reale de la Chișinău, actualizate zilnic. Alege biletul și zboară.</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 48px;">
+        <sc-for list="{{ routes }}" as="r" hint-placeholder-count="8">
+          <div style="position: relative; background: #FFFDF8; border: 1px solid #E4DCC9; border-radius: 18px; overflow: hidden; cursor: pointer; transition: transform 0.35s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.35s; animation: revealUp 0.7s {{ r.delay }} cubic-bezier(0.2,0.8,0.2,1) both; animation-timeline: view(); animation-range: entry 0% entry 30%;" style-hover="transform: translateY(-8px) rotate(-0.5deg); box-shadow: 0 32px 56px -24px rgba(22,35,59,0.35);">
+            <div style="position: relative; height: 172px; overflow: hidden;">
+              <img src="{{ r.img }}" alt="{{ r.city }}" style="width: 100%; height: 100%; object-fit: cover;">
+              <span style="position: absolute; top: 12px; left: 12px; background: #0B1524; color: #F7F2E8; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.1em; padding: 5px 10px; border-radius: 6px;">{{ r.code }}</span>
+            </div>
+            <div style="padding: 18px 20px 14px; display: flex; align-items: baseline; gap: 12px;">
+              <span style="font-size: 24px; font-weight: 700; letter-spacing: -0.02em;">{{ r.city }}</span>
+              <span style="margin-left: auto; color: var(--accent, #FF6B4A); font-weight: 700; font-size: 20px;">{{ r.price }}</span>
+            </div>
+            <div style="padding: 0 20px 16px; font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.06em; color: #8A8474;">{{ r.dur }} · DIRECT · de la Chișinău</div>
+            <div style="position: relative; border-top: 2px dashed #DCD4C2;">
+              <span style="position: absolute; left: -11px; top: -11px; width: 22px; height: 22px; border-radius: 50%; background: #F7F2E8; border-right: 1px solid #E4DCC9;"></span>
+              <span style="position: absolute; right: -11px; top: -11px; width: 22px; height: 22px; border-radius: 50%; background: #F7F2E8; border-left: 1px solid #E4DCC9;"></span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px; padding: 14px 20px;">
+              <span style="font-family: 'Space Mono', monospace; font-size: 12px; color: #16233B; font-weight: 700;">KIV → {{ r.code }}</span>
+              <div style="height: 22px; flex: 1; background: repeating-linear-gradient(90deg, #16233B 0 2px, transparent 2px 5px); opacity: 0.7;"></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFERTE / PROMO ============ -->
+  <sc-if value="{{ showPromo }}" hint-placeholder-val="{{ true }}">
+    <section id="oferte" data-screen-label="Oferte promo" style="background: var(--accent, #FF6B4A); color: #14100D; padding: 96px 32px; position: relative; overflow: hidden;">
+      <div style="position: absolute; inset: 0; pointer-events: none;">
+        <div style="position: absolute; top: -180px; right: -140px; width: 520px; height: 520px; border-radius: 50%; border: 2px dashed rgba(20,16,13,0.22);"></div>
+        <div style="position: absolute; bottom: -200px; left: -160px; width: 480px; height: 480px; border-radius: 50%; border: 2px dashed rgba(20,16,13,0.16);"></div>
+      </div>
+      <div style="position: relative; max-width: 1240px; margin: 0 auto; animation: revealUp 1ms linear both; animation-timeline: view(); animation-range: entry 0% entry 40%;">
+        <div style="display: flex; align-items: flex-end; flex-wrap: wrap; gap: 24px;">
+          <div>
+            <div style="font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.16em;">OFERTE DE VARĂ · PÂNĂ PE 31 AUGUST</div>
+            <h2 style="margin: 14px 0 0; font-size: clamp(44px, 5.4vw, 76px); font-weight: 700; letter-spacing: -0.035em; line-height: 0.98;">Vara asta, zbori<br><span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;">cu până la −30%</span></h2>
+          </div>
+          <div style="margin-left: auto; background: #14100D; color: var(--accent, #FF6B4A); font-family: 'Space Mono', monospace; font-weight: 700; font-size: 15px; letter-spacing: 0.14em; padding: 14px 24px; border-radius: 12px; animation: floatY 4s ease-in-out infinite;">COD: ZBOR30</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 52px;">
+          <sc-for list="{{ deals }}" as="d" hint-placeholder-count="3">
+            <div style="background: #14100D; color: #F7F2E8; border-radius: 16px; padding: 26px 28px; display: flex; flex-direction: column; gap: 14px; transition: transform 0.3s;" style-hover="transform: translateY(-6px);">
+              <div style="display: flex; align-items: center; gap: 10px; font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; color: rgba(247,242,232,0.55);">
+                KIV → {{ d.code }}
+                <span style="margin-left: auto; background: var(--accent, #FF6B4A); color: #14100D; font-weight: 700; padding: 3px 10px; border-radius: 999px;">{{ d.off }}</span>
+              </div>
+              <div style="font-size: 30px; font-weight: 700; letter-spacing: -0.02em;">{{ d.city }}</div>
+              <div style="display: flex; align-items: baseline; gap: 12px;">
+                <span style="font-family: 'Space Mono', monospace; text-decoration: line-through; color: rgba(247,242,232,0.45); font-size: 16px;">{{ d.old }}</span>
+                <span style="font-size: 34px; font-weight: 700; color: var(--accent, #FF6B4A);">{{ d.now }}</span>
+                <span style="font-size: 13px; color: rgba(247,242,232,0.5);">dus, cu cod</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <!-- ============ DE CE YOUFLY ============ -->
+  <section data-screen-label="De ce YouFly" style="background: #F7F2E8; color: #16233B; padding: 104px 32px;">
+    <div style="max-width: 1240px; margin: 0 auto;">
+      <div style="animation: revealUp 1ms linear both; animation-timeline: view(); animation-range: entry 0% entry 40%;">
+        <div style="display: flex; align-items: center; gap: 10px; font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.14em; color: var(--accent, #FF6B4A);">
+          <span style="width: 8px; height: 8px; background: var(--accent, #FF6B4A); transform: rotate(45deg);"></span>
+          DE CE YOUFLY
+        </div>
+        <h2 style="margin: 14px 0 0; font-size: clamp(36px, 4vw, 56px); font-weight: 700; letter-spacing: -0.03em;">Rezervă <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;">cu încredere</span></h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin-top: 56px; border-top: 1px solid #DCD4C2;">
+        <sc-for list="{{ features }}" as="f" hint-placeholder-count="4">
+          <div style="padding: 32px 28px 40px; border-bottom: 1px solid #DCD4C2; border-right: 1px solid #DCD4C2; animation: revealUp 0.7s {{ f.delay }} cubic-bezier(0.2,0.8,0.2,1) both; animation-timeline: view(); animation-range: entry 0% entry 30%;" style-hover="background: #FFFDF8;">
+            <div style="font-family: 'Space Mono', monospace; font-size: 13px; font-weight: 700; color: var(--accent, #FF6B4A);">{{ f.num }}</div>
+            <h3 style="margin: 18px 0 10px; font-size: 22px; font-weight: 700; letter-spacing: -0.01em;">{{ f.title }}</h3>
+            <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #6B6455;">{{ f.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CUM FUNCȚIONEAZĂ ============ -->
+  <section id="cum" data-screen-label="Cum funcționează" style="background: #F7F2E8; color: #16233B; padding: 0 32px 112px;">
+    <div style="max-width: 1240px; margin: 0 auto;">
+      <div style="animation: revealUp 1ms linear both; animation-timeline: view(); animation-range: entry 0% entry 40%;">
+        <div style="display: flex; align-items: center; gap: 10px; font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.14em; color: var(--accent, #FF6B4A);">
+          <span style="width: 8px; height: 8px; background: var(--accent, #FF6B4A); transform: rotate(45deg);"></span>
+          CUM FUNCȚIONEAZĂ
+        </div>
+        <h2 style="margin: 14px 0 0; font-size: clamp(36px, 4vw, 56px); font-weight: 700; letter-spacing: -0.03em;">Trei pași <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;">până la poartă</span></h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 52px;">
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="3">
+          <div style="position: relative; background: #0B1524; color: #F7F2E8; border-radius: 18px; padding: 32px 30px 36px; overflow: hidden; animation: revealUp 0.7s {{ s.delay }} cubic-bezier(0.2,0.8,0.2,1) both; animation-timeline: view(); animation-range: entry 0% entry 30%;">
+            <div style="position: absolute; top: -40px; right: -40px; width: 160px; height: 160px; border-radius: 50%; border: 1px dashed rgba(247,242,232,0.16);"></div>
+            <div style="display: inline-block; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 0.14em; color: #0B1524; background: var(--accent, #FF6B4A); padding: 6px 12px; border-radius: 6px;">{{ s.gate }}</div>
+            <h3 style="margin: 22px 0 10px; font-size: 26px; font-weight: 700; letter-spacing: -0.01em;">{{ s.title }}</h3>
+            <p style="margin: 0; font-size: 15px; line-height: 1.6; color: rgba(247,242,232,0.65);">{{ s.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALE ============ -->
+  <section data-screen-label="Testimoniale" style="background: #0B1524; color: #F7F2E8; padding: 104px 32px; position: relative; overflow: hidden;">
+    <div style="position: absolute; top: -200px; left: 50%; width: 720px; height: 480px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(255,107,74,0.10), transparent 70%); pointer-events: none;"></div>
+    <div style="position: relative; max-width: 1240px; margin: 0 auto;">
+      <div style="display: flex; align-items: flex-end; gap: 24px; flex-wrap: wrap; animation: revealUp 1ms linear both; animation-timeline: view(); animation-range: entry 0% entry 40%;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px; font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.14em; color: var(--accent, #FF6B4A);">
+            <span style="width: 8px; height: 8px; background: var(--accent, #FF6B4A); transform: rotate(45deg);"></span>
+            CE SPUN CLIENȚII
+          </div>
+          <h2 style="margin: 14px 0 0; font-size: clamp(36px, 4vw, 56px); font-weight: 700; letter-spacing: -0.03em;">Pasageri <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;">mulțumiți</span></h2>
+        </div>
+        <div style="margin-left: auto; width: 128px; height: 128px; border-radius: 50%; border: 2px dashed var(--accent, #FF6B4A); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; transform: rotate(-8deg); color: var(--accent, #FF6B4A);">
+          <span style="font-size: 28px; font-weight: 700;">4.9★</span>
+          <span style="font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.14em;">177 RECENZII</span>
+          <span style="font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 0.14em;">VERIFICAT</span>
+        </div>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-top: 52px;">
+        <sc-for list="{{ reviews }}" as="rv" hint-placeholder-count="3">
+          <figure style="margin: 0; background: #0E1930; border: 1px solid rgba(247,242,232,0.1); border-radius: 18px; padding: 30px 30px 26px; display: flex; flex-direction: column; gap: 18px; animation: revealUp 0.7s {{ rv.delay }} cubic-bezier(0.2,0.8,0.2,1) both; animation-timeline: view(); animation-range: entry 0% entry 30%;">
+            <span style="color: var(--accent, #FF6B4A); font-size: 16px; letter-spacing: 4px;">★★★★★</span>
+            <blockquote style="margin: 0; font-family: 'Instrument Serif', serif; font-style: italic; font-size: 21px; line-height: 1.45; color: rgba(247,242,232,0.9);">{{ rv.quote }}</blockquote>
+            <figcaption style="display: flex; align-items: center; gap: 12px; margin-top: auto;">
+              <span style="width: 40px; height: 40px; border-radius: 50%; background: var(--accent, #FF6B4A); color: #14100D; display: flex; align-items: center; justify-content: center; font-weight: 700;">{{ rv.initial }}</span>
+              <span style="display: flex; flex-direction: column;">
+                <span style="font-weight: 600; font-size: 15px;">{{ rv.name }}</span>
+                <span style="font-family: 'Space Mono', monospace; font-size: 12px; color: rgba(247,242,232,0.5);">{{ rv.place }}</span>
+              </span>
+            </figcaption>
+          </figure>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section data-screen-label="Newsletter" style="background: #0B1524; color: #16233B; padding: 0 32px 112px;">
+    <div style="max-width: 900px; margin: 0 auto; animation: revealUp 1ms linear both; animation-timeline: view(); animation-range: entry 0% entry 45%;">
+      <div style="position: relative; background: #F7F2E8; border-radius: 20px; padding: 48px 56px; display: flex; align-items: center; gap: 40px; flex-wrap: wrap;">
+        <span style="position: absolute; left: 28px; top: 28px; width: 22px; height: 22px; border-radius: 50%; background: #0B1524; box-shadow: inset 0 0 0 5px #DCD4C2;"></span>
+        <div style="flex: 1; min-width: 280px; padding-left: 24px;">
+          <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.16em; color: #8A8474;">ALERTE DE PREȚ · FĂRĂ SPAM</div>
+          <h2 style="margin: 12px 0 8px; font-size: clamp(28px, 3vw, 40px); font-weight: 700; letter-spacing: -0.02em;">Prețuri speciale, <span style="font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400;">direct în inbox</span></h2>
+          <p style="margin: 0; font-size: 15px; color: #6B6455; line-height: 1.5;">Primești alerte pentru rutele tale favorite. Te poți dezabona oricând.</p>
+        </div>
+        <div style="display: flex; gap: 10px; flex: 1; min-width: 300px;">
+          <input type="email" placeholder="adresa ta de email" style="flex: 1; border: 1px solid #DCD4C2; border-radius: 999px; padding: 15px 22px; font-size: 15px; background: #FFFDF8; color: #16233B; outline: none;">
+          <button style="background: #0B1524; color: #F7F2E8; border: none; border-radius: 999px; padding: 15px 28px; font-size: 15px; font-weight: 600; cursor: pointer;" style-hover="background: var(--accent, #FF6B4A); color: #14100D;">Abonare</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer data-screen-label="Footer" style="background: #080F1C; color: rgba(247,242,232,0.7); padding: 72px 32px 40px; border-top: 1px solid rgba(247,242,232,0.08);">
+    <div style="max-width: 1240px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 22px; color: #F7F2E8;">
+            <span style="width: 14px; height: 14px; background: var(--accent, #FF6B4A); transform: rotate(45deg);"></span>
+            YouFly
+          </div>
+          <p style="margin: 16px 0 0; font-size: 14px; line-height: 1.6; max-width: 260px;">Caută și rezervă zboruri rapid și simplu, din Chișinău către toată lumea.</p>
+          <div style="display: flex; gap: 10px; margin-top: 20px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.1em;">
+            <span style="border: 1px solid rgba(247,242,232,0.2); border-radius: 6px; padding: 5px 10px;">IATA ACCREDITED</span>
+            <span style="border: 1px solid rgba(247,242,232,0.2); border-radius: 6px; padding: 5px 10px;">SSL SECURE</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
+          <span style="font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(247,242,232,0.45);">LINKURI UTILE</span>
+          <a href="#">Căutare</a>
+          <a href="#rute">Destinații</a>
+          <a href="#oferte">Oferte</a>
+          <a href="#">Aeroporturi</a>
+          <a href="#">Despre YouFly</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
+          <span style="font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(247,242,232,0.45);">RESURSE</span>
+          <a href="#">Verifică rezervarea</a>
+          <a href="#">Status zbor</a>
+          <a href="#">Check-in online</a>
+          <a href="#">Reguli bagaj</a>
+          <a href="#">Cerințe viză</a>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 12px; font-size: 14px;">
+          <span style="font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.16em; color: rgba(247,242,232,0.45);">CONTACT</span>
+          <a href="tel:+37322000000">+373 22 000 000</a>
+          <a href="mailto:support@youfly.md">support@youfly.md</a>
+          <span>Chișinău, Moldova</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-top: 56px; padding-top: 28px; border-top: 1px solid rgba(247,242,232,0.08); font-size: 13px; color: rgba(247,242,232,0.45);">
+        <span>© 2026 YouFly. Toate drepturile rezervate.</span>
+        <div style="display: flex; gap: 16px; margin-left: auto; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.08em;">
+          <span>VISA</span><span>MASTERCARD</span><span>AMEX</span><span>YOUFLY PAY</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FF6B4A&quot;,&quot;options&quot;:[&quot;#FF6B4A&quot;,&quot;#4A9DFF&quot;,&quot;#E8A33D&quot;,&quot;#2FBF8F&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Brand&quot;},&quot;showPromo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Secțiuni&quot;},&quot;reducedMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Mișcare&quot;}}">
+class Component extends DCLogic {
+  state = {
+    dest: "LONDRA",
+    destIdx: 0,
+    trip: "round",
+    toCity: "Londra",
+    toCode: "LTN",
+    a: 0,
+    d: 0
+  };
+
+  destinations = ["LONDRA", "PARIS", "ISTANBUL", "VIENA", "BARCELONA", "MILANO", "TEL AVIV"];
+
+  componentDidMount() {
+    this.applyAccent();
+    const reduced = this.props.reducedMotion ?? false;
+    if (!reduced) {
+      this.flapTimer = setInterval(() => {
+        this.setState(s => {
+          const i = (s.destIdx + 1) % this.destinations.length;
+          return { destIdx: i, dest: this.destinations[i] };
+        });
+      }, 3400);
+    }
+    const t0 = performance.now();
+    const tick = (t) => {
+      const p = Math.min(1, (t - t0) / 1500);
+      const e = 1 - Math.pow(1 - p, 3);
+      this.setState({ a: Math.round(500 * e), d: Math.round(10 * e) });
+      if (p < 1) this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.accent !== this.props.accent) this.applyAccent();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.flapTimer);
+    cancelAnimationFrame(this.raf);
+  }
+
+  applyAccent() {
+    document.documentElement.style.setProperty("--accent", this.props.accent ?? "#FF6B4A");
+  }
+
+  flapBoard() {
+    const word = this.state.dest;
+    const N = 9;
+    const pad = Math.floor((N - word.length) / 2);
+    const cells = Array.from({ length: N }, (_, i) => {
+      const ch = word[i - pad];
+      return ch && ch !== " " ? ch : "";
+    });
+    const reduced = this.props.reducedMotion ?? false;
+    return React.createElement(
+      "div",
+      { key: word, style: { display: "flex", gap: "0.14em" } },
+      cells.map((ch, i) =>
+        React.createElement(
+          "div",
+          {
+            key: i,
+            style: {
+              position: "relative",
+              width: "1.02em",
+              height: "1.4em",
+              borderRadius: "0.12em",
+              background: ch ? "#152238" : "#101B30",
+              border: "1px solid rgba(247,242,232,0.09)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "'Space Mono', monospace",
+              fontWeight: 700,
+              color: ch ? "var(--accent, #FF6B4A)" : "rgba(247,242,232,0.08)",
+              animation: reduced ? "none" : "flapIn 0.55s cubic-bezier(0.3, 1.3, 0.5, 1) both",
+              animationDelay: (i * 50) + "ms",
+              transformOrigin: "center top",
+              overflow: "hidden",
+              boxShadow: "0 0.08em 0 rgba(0,0,0,0.35)"
+            }
+          },
+          React.createElement("span", { style: { position: "relative", zIndex: 1 } }, ch || "·"),
+          React.createElement("span", {
+            style: {
+              position: "absolute", left: 0, right: 0, top: "50%",
+              height: "0.035em", background: "rgba(4,10,20,0.6)", zIndex: 2
+            }
+          })
+        )
+      )
+    );
+  }
+
+  renderVals() {
+    const s = this.state;
+    const one = s.trip === "one";
+    const reduced = this.props.reducedMotion ?? false;
+
+    const airlines = [
+      { name: "WIZZ AIR", src: "https://www.gstatic.com/flights/airline_logos/70px/W6.png" },
+      { name: "TURKISH AIRLINES", src: "https://www.gstatic.com/flights/airline_logos/70px/TK.png" },
+      { name: "TAROM", src: "https://www.gstatic.com/flights/airline_logos/70px/RO.png" },
+      { name: "AUSTRIAN", src: "https://www.gstatic.com/flights/airline_logos/70px/OS.png" },
+      { name: "LOT POLISH", src: "https://www.gstatic.com/flights/airline_logos/70px/LO.png" },
+      { name: "LUFTHANSA", src: "https://www.gstatic.com/flights/airline_logos/70px/LH.png" },
+      { name: "FLYONE", src: "https://www.gstatic.com/flights/airline_logos/70px/5F.png" },
+      { name: "HISKY", src: "https://www.gstatic.com/flights/airline_logos/70px/H4.png" },
+      { name: "FLYDUBAI", src: "https://www.gstatic.com/flights/airline_logos/70px/FZ.png" }
+    ];
+
+    return {
+      showPromo: this.props.showPromo ?? true,
+      flapBoard: this.flapBoard(),
+      statAirlines: s.a + "+",
+      statDest: s.d + "K+",
+
+      // search card
+      setTripOne: () => this.setState({ trip: "one" }),
+      setTripRound: () => this.setState({ trip: "round" }),
+      oneBg: one ? "#16233B" : "transparent",
+      oneColor: one ? "#F7F2E8" : "#6B6455",
+      roundBg: one ? "transparent" : "#16233B",
+      roundColor: one ? "#6B6455" : "#F7F2E8",
+      retOpacity: one ? "0.35" : "1",
+      tripLabel: one ? "DUS" : "DUS-ÎNTORS",
+      toValue: s.toCity + "|" + s.toCode,
+      toCode: s.toCode,
+      setTo: (e) => {
+        const [city, code] = e.target.value.split("|");
+        this.setState({ toCity: city, toCode: code });
+      },
+      swap: () => {},
+      quickDates: ["Azi", "Mâine", "Vineri", "Weekend", "+1 săpt."],
+
+      marqueeDur: reduced ? "0s" : "36s",
+      airlinesLoop: [...airlines, ...airlines],
+
+      boardRows: [
+        { city: "Istanbul", code: "IST", flight: "TK 274", time: "09:15", dur: "2h 15m", price: "€32", status: "ÎMBARCARE", statusColor: "var(--accent, #FF6B4A)", statusAnim: "blinkPulse 1.4s infinite", delay: "0ms" },
+        { city: "București", code: "OTP", flight: "RO 202", time: "11:05", dur: "1h 10m", price: "€35", status: "LA TIMP", statusColor: "#2FBF8F", statusAnim: "none", delay: "60ms" },
+        { city: "Londra", code: "LTN", flight: "5F 401", time: "12:40", dur: "3h 30m", price: "€39", status: "LA TIMP", statusColor: "#2FBF8F", statusAnim: "none", delay: "120ms" },
+        { city: "Viena", code: "VIE", flight: "OS 846", time: "13:30", dur: "2h 10m", price: "€39", status: "LA TIMP", statusColor: "#2FBF8F", statusAnim: "none", delay: "180ms" },
+        { city: "Barcelona", code: "BCN", flight: "W6 3801", time: "16:20", dur: "3h 45m", price: "€31", status: "PREȚ REDUS", statusColor: "var(--accent, #FF6B4A)", statusAnim: "blinkPulse 1.4s infinite", delay: "240ms" },
+        { city: "Tel Aviv", code: "TLV", flight: "H4 021", time: "22:45", dur: "3h 00m", price: "€45", status: "LA TIMP", statusColor: "#2FBF8F", statusAnim: "none", delay: "300ms" }
+      ],
+
+      routes: [
+        { city: "București", code: "OTP", price: "de la €35", dur: "1h 10m", img: "https://images.unsplash.com/photo-1584646098378-0874589d76b1?auto=format&fit=crop&w=800&q=80", delay: "0ms" },
+        { city: "Istanbul", code: "IST", price: "de la €32", dur: "2h 15m", img: "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=800&q=80", delay: "60ms" },
+        { city: "Londra", code: "LTN", price: "de la €39", dur: "3h 30m", img: "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80", delay: "120ms" },
+        { city: "Viena", code: "VIE", price: "de la €39", dur: "2h 10m", img: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=800&q=80", delay: "180ms" },
+        { city: "Barcelona", code: "BCN", price: "de la €31", dur: "3h 45m", img: "https://images.unsplash.com/photo-1583422409516-2895a77efded?auto=format&fit=crop&w=800&q=80", delay: "0ms" },
+        { city: "Paris", code: "BVA", price: "de la €73", dur: "3h 40m", img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80", delay: "60ms" },
+        { city: "Milano", code: "BGY", price: "de la €59", dur: "2h 55m", img: "https://images.unsplash.com/photo-1520440229-6469a149ac59?auto=format&fit=crop&w=800&q=80", delay: "120ms" },
+        { city: "Tel Aviv", code: "TLV", price: "de la €45", dur: "3h 00m", img: "https://images.unsplash.com/photo-1544967082-d9d25d867d66?auto=format&fit=crop&w=800&q=80", delay: "180ms" }
+      ],
+
+      deals: [
+        { city: "Barcelona", code: "BCN", old: "€31", now: "€23", off: "−25%" },
+        { city: "Istanbul", code: "IST", old: "€32", now: "€26", off: "−20%" },
+        { city: "Paris", code: "BVA", old: "€73", now: "€51", off: "−30%" }
+      ],
+
+      features: [
+        { num: "01", title: "Garanție de preț", body: "Găsești un preț mai mic în 24h? Îți returnăm diferența, fără discuții.", delay: "0ms" },
+        { num: "02", title: "Fără taxe ascunse", body: "Prețul pe care îl vezi este cel pe care îl plătești — toate taxele incluse.", delay: "60ms" },
+        { num: "03", title: "Anulare flexibilă", body: "Anulare gratuită în primele 24h și modificarea datelor fără costuri.", delay: "120ms" },
+        { num: "04", title: "Asistență non-stop", body: "Oameni reali, disponibili 24/7 pe telefon, email și chat. Nu doar chatboți.", delay: "180ms" }
+      ],
+
+      steps: [
+        { gate: "POARTA 01", title: "Caută zboruri", body: "Introdu aeroportul de plecare, destinația și datele de călătorie.", delay: "0ms" },
+        { gate: "POARTA 02", title: "Compară prețurile", body: "Filtrează după preț, escale, companie aeriană și durata zborului.", delay: "80ms" },
+        { gate: "POARTA 03", title: "Rezervă și zboară", body: "Completează datele pasagerilor și finalizează rezervarea în câteva minute.", delay: "160ms" }
+      ],
+
+      reviews: [
+        { quote: "\u201EAm găsit un zbor spre Londra cu 40€ mai ieftin decât pe alte platforme! Procesul a fost extrem de simplu.\u201D", initial: "M", name: "Maria C.", place: "Chișinău", delay: "0ms" },
+        { quote: "\u201ERezervarea a durat mai puțin de 5 minute. Interfața e clară și ușor de folosit. Recomand cu încredere!\u201D", initial: "A", name: "Alexandru P.", place: "Bălți", delay: "80ms" },
+        { quote: "\u201EAm rezervat bilete pentru întreaga familie la prețuri foarte bune. Filtrele de căutare sunt foarte utile.\u201D", initial: "E", name: "Elena M.", place: "Chișinău", delay: "160ms" }
+      ]
+    };
+  }
+}
+</script>
+
+
+<div id="__claude_design_branding"><style>#__claude_design_branding{position:fixed;right:16px;bottom:16px;z-index:2147483646;display:flex;align-items:center;gap:7px;height:30px;padding:0 5px 0 10px;border-radius:999px;font-family:"Anthropic Sans",-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-size:12.5px;font-weight:400;line-height:1;letter-spacing:normal;text-transform:none;color:#141413;background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);box-shadow:0 0 0 .5px rgba(31,30,29,.14),0 2px 10px rgba(0,0,0,.09)}
+#__claude_design_branding *{box-sizing:border-box;margin:0}
+#__claude_design_branding a{color:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+#__claude_design_branding a:hover span{text-decoration:underline}
+#__claude_design_branding svg{flex:none}
+#__claude_design_branding a svg{color:#D97757}
+#__claude_design_branding button{width:20px;height:20px;padding:0;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;color:currentColor;opacity:.55;border:0;background:none;cursor:pointer;flex:none;font:inherit;transition:opacity .14s}
+#__claude_design_branding button:hover{opacity:1;background:rgba(127,127,127,.22)}
+@media print{#__claude_design_branding{display:none}}</style><a href="https://claude.com/product/design" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" viewBox="0 0 20 21" fill="none" aria-hidden="true"><path fill="currentColor" d="M9.99902 0C15.5258 0.000170936 19.999 4.50643 19.999 10.0547C19.999 11.7656 19.5863 12.9976 18.7861 13.8203C17.9924 14.6362 16.9465 14.9138 15.9854 15.0078C15.05 15.0993 14.0097 15.0262 13.2549 15.0186C12.8524 15.0145 12.5177 15.0267 12.2441 15.0703C11.9682 15.1144 11.8143 15.1813 11.7305 15.2432C11.4745 15.4322 11.3353 15.7121 11.2656 16.1602C11.2303 16.3875 11.2168 16.6362 11.209 16.9131C11.2017 17.1715 11.1986 17.4893 11.1807 17.7705C11.1469 18.2975 11.0495 19.0865 10.4199 19.5908C9.7846 20.0996 8.88652 20.1057 7.85449 19.877C7.36399 19.7682 6.88652 19.6232 6.42578 19.4453C2.66989 17.9949 0.000187748 14.3414 0 10.0547C0 4.50643 4.47223 0.000171048 9.99902 0ZM9.99902 1.60547C5.36781 1.60564 1.60547 5.38391 1.60547 10.0547C1.60566 13.6582 3.84823 16.7296 7.00391 17.9482C7.39027 18.0974 7.79085 18.2184 8.20215 18.3096C9.1375 18.5169 9.384 18.3633 9.41602 18.3379C9.4524 18.3087 9.54558 18.1915 9.5791 17.668C9.5947 17.4239 9.59473 17.1786 9.60352 16.8672C9.61179 16.5742 9.62831 16.2435 9.67969 15.9131C9.78359 15.2455 10.0474 14.4906 10.7764 13.9521C11.1479 13.6778 11.5842 13.5493 11.9912 13.4844C12.4007 13.4191 12.8434 13.4088 13.2705 13.4131C14.1753 13.4222 15.0071 13.4905 15.8291 13.4102C16.6257 13.3322 17.2249 13.1235 17.6357 12.7012C18.0401 12.2855 18.3935 11.5261 18.3936 10.0547C18.3936 5.38391 14.6302 1.60564 9.99902 1.60547ZM5.11621 9.86719C5.86386 9.91468 6.45486 10.5348 6.45508 11.2939C6.45506 12.0838 5.81519 12.7245 5.02539 12.7246C4.28481 12.7246 3.67573 12.1617 3.60254 11.4404L3.59473 11.2939L3.60156 11.1533C3.66942 10.4596 4.23282 9.91186 4.93359 9.86719H5.11621ZM14.9814 7.19141C15.729 7.23889 16.3199 7.85919 16.3203 8.61816C16.3203 9.40801 15.6804 10.0487 14.8906 10.0488C14.1501 10.0487 13.5409 9.48586 13.4678 8.76465L13.46 8.61816L13.4668 8.47754C13.5348 7.78403 14.0983 7.23618 14.7988 7.19141H14.9814ZM6.4541 4.93457C7.20161 4.9822 7.79275 5.60231 7.79297 6.36133C7.79288 7.151 7.15291 7.7917 6.36328 7.79199C5.62274 7.79199 5.01369 7.22903 4.94043 6.50781L4.93262 6.36133L4.93945 6.2207C5.00731 5.52698 5.5707 4.97922 6.27148 4.93457H6.4541ZM11.3867 3.59668C12.1343 3.64419 12.7253 4.26436 12.7256 5.02344C12.7256 5.81326 12.0857 6.45393 11.2959 6.4541C10.5553 6.4541 9.94622 5.89123 9.87305 5.16992L9.86523 5.02344L9.87207 4.88281C9.93996 4.18912 10.5033 3.64133 11.2041 3.59668H11.3867Z"></path></svg><span>Made with Claude Design</span></a><button type="button" aria-label="Dismiss" onclick="this.parentElement.remove()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path></svg></button></div></body></html>
