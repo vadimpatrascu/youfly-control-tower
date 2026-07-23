@@ -159,6 +159,68 @@ def build_flights(region: str = "corridor") -> dict[str, Any]:
     return payload
 
 
+def _json_response(handler: "Handler", status: int, payload: dict) -> None:
+    body = json.dumps(payload).encode("utf-8")
+    handler.send_response(status)
+    handler.send_header("Content-Type", "application/json; charset=utf-8")
+    handler.send_header("Content-Length", str(len(body)))
+    handler.end_headers()
+    handler.wfile.write(body)
+
+
+def proxy_node_api(script: str, method: str, query: dict, body: dict | None = None) -> tuple[int, dict]:
+    """Invoke Vercel-style api/*.js handlers via node for local parity."""
+    import subprocess
+    import tempfile
+
+    q_json = json.dumps({k: (v[0] if isinstance(v, list) else v) for k, v in query.items()})
+    b_json = json.dumps(body or {})
+    runner = f"""
+const path = require('path');
+const handler = require(path.resolve({json.dumps(str(ROOT / 'api' / script))}));
+const req = {{
+  method: {json.dumps(method)},
+  query: {q_json},
+  on(ev, cb) {{
+    if (ev === 'data') cb(Buffer.from({json.dumps(b_json if method == 'POST' else '')}));
+    if (ev === 'end') setImmediate(cb);
+  }}
+}};
+let status = 200;
+const res = {{
+  statusCode: 200,
+  setHeader() {{}},
+  status(c) {{ status = c; this.statusCode = c; return this; }},
+  end(s) {{ process.stdout.write(JSON.stringify({{ status: status || this.statusCode || 200, body: s || '' }})); }},
+  json(o) {{ this.end(JSON.stringify(o)); }}
+}};
+Promise.resolve(handler(req, res)).catch(e => {{
+  process.stdout.write(JSON.stringify({{ status: 500, body: JSON.stringify({{ ok:false, error: String(e) }}) }}));
+}});
+"""
+    try:
+        proc = subprocess.run(
+            ["node", "-e", runner],
+            capture_output=True,
+            text=True,
+            timeout=30,
+            cwd=str(ROOT),
+        )
+        out = (proc.stdout or "").strip()
+        if not out:
+            return 500, {"ok": False, "error": proc.stderr or "node handler empty"}
+        data = json.loads(out)
+        status = int(data.get("status") or 200)
+        raw = data.get("body") or "{}"
+        try:
+            payload = json.loads(raw) if isinstance(raw, str) else raw
+        except json.JSONDecodeError:
+            payload = {"ok": False, "error": "bad handler body", "raw": raw}
+        return status, payload
+    except Exception as e:  # noqa: BLE001
+        return 500, {"ok": False, "error": str(e)}
+
+
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(ROOT), **kwargs)
@@ -178,25 +240,41 @@ class Handler(SimpleHTTPRequestHandler):
             qs = parse_qs(parsed.query)
             region = (qs.get("region") or ["corridor"])[0]
             payload = build_flights(region)
-            body = json.dumps(payload).encode("utf-8")
-            self.send_response(200 if payload.get("ok") or payload.get("flights") else 502)
-            self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
+            _json_response(self, 200 if payload.get("ok") or payload.get("flights") else 502, payload)
+            return
+        if parsed.path == "/api/search":
+            qs = parse_qs(parsed.query)
+            status, payload = proxy_node_api("search.js", "GET", qs)
+            _json_response(self, status, payload)
             return
         if parsed.path == "/api/health":
-            body = json.dumps({"ok": True, "service": "youfly-tower"}).encode()
-            self.send_response(200)
-            self.send_header("Content-Type", "application/json")
-            self.send_header("Content-Length", str(len(body)))
-            self.end_headers()
-            self.wfile.write(body)
+            _json_response(self, 200, {"ok": True, "service": "youfly-tower", "sales": True})
             return
+        # Prefer Control Tower at /
+        if parsed.path in ("/", "/index.html"):
+            self.path = "/index.html"
         return super().do_GET()
 
+    def do_POST(self):
+        parsed = urlparse(self.path)
+        length = int(self.headers.get("Content-Length") or 0)
+        raw = self.rfile.read(length) if length else b"{}"
+        try:
+            body = json.loads(raw.decode("utf-8") or "{}")
+        except json.JSONDecodeError:
+            _json_response(self, 400, {"ok": False, "error": "Invalid JSON"})
+            return
+        if parsed.path == "/api/book":
+            status, payload = proxy_node_api("book.js", "POST", {}, body)
+            _json_response(self, status, payload)
+            return
+        if parsed.path == "/api/contact":
+            status, payload = proxy_node_api("contact.js", "POST", {}, body)
+            _json_response(self, status, payload)
+            return
+        _json_response(self, 404, {"ok": False, "error": "Not found"})
+
     def log_message(self, fmt: str, *args):
-        # quieter logs
         if args and str(args[0]).startswith("/api/"):
             print("[api]", args[0])
         elif args and any(x in str(args[0]) for x in (".html", ".js", ".css")):
@@ -204,7 +282,6 @@ class Handler(SimpleHTTPRequestHandler):
 
 
 def main() -> None:
-    # Warm cache
     try:
         n = build_flights("corridor")["count"]
         print(f"OpenSky warm: {n} bookable-airline flights in corridor")
@@ -212,8 +289,8 @@ def main() -> None:
         print("OpenSky warm failed:", e)
 
     httpd = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
-    print(f"YouFly Control Tower → http://127.0.0.1:{PORT}/v2.html")
-    print(f"Live flights API     → http://127.0.0.1:{PORT}/api/live-flights")
+    print(f"YouFly Control Tower → http://127.0.0.1:{PORT}/")
+    print(f"Sales APIs           → /api/search · /api/book · /api/contact · /api/live-flights")
     httpd.serve_forever()
 
 
