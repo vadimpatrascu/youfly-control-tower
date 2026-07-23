@@ -40,7 +40,103 @@ function validPhone(p) {
   return /^\+?[\d\s()-]{7,20}$/.test(p || "");
 }
 
-async function bookDuffel({ flight, contact, passengers, paymentMethod }) {
+/**
+ * Agency hold for a live Duffel offer (recommended for Moldova).
+ * Does NOT ticket yet — agent issues ticket after client pays.
+ * Duffel Payments is discontinued; balance ticket only if funded / test.
+ */
+function bookDuffelHold({ flight, contact, passengers, paymentMethod }) {
+  const offerId = flight.duffelOfferId || flight.duffelOffer?.id || null;
+  const ref = `YF-${crypto.randomBytes(3).toString("hex").toUpperCase()}`;
+  const statusMap = {
+    hold: "hold_24h_duffel_offer",
+    whatsapp: "awaiting_whatsapp",
+    office: "awaiting_office",
+    transfer: "awaiting_transfer",
+    card: "awaiting_manual_card",
+  };
+  const expires = flight.expiresAt || flight.duffelOffer?.expires_at || null;
+  return {
+    ref,
+    status: statusMap[paymentMethod] || "hold_24h_duffel_offer",
+    paymentMethod,
+    createdAt: new Date().toISOString(),
+    source: "duffel_hold",
+    duffel: {
+      offerId,
+      offerRequestId: flight.duffelOfferRequestId || null,
+      passengerIds: flight.duffelPassengerIds || [],
+      expiresAt: expires,
+      liveMode: flight.liveMode !== false && !duffel.isTestToken(),
+      testMode: duffel.isTestToken(),
+      agentAction:
+        "După plata clientului: deschide Duffel Dashboard → Orders → creează order din offerId (sau re-search) și emite biletul.",
+    },
+    currency: flight.fare?.currency || "EUR",
+    total: flight.fare?.total,
+    displayTotal: flight.fare?.display || `€${flight.fare?.total}`,
+    promo: flight.fare?.promo || null,
+    discount: flight.fare?.discount || 0,
+    flight: {
+      id: flight.id,
+      source: "duffel",
+      duffelOfferId: offerId,
+      duffelPassengerIds: flight.duffelPassengerIds || [],
+      duffelOfferRequestId: flight.duffelOfferRequestId || null,
+      expiresAt: expires,
+      from: flight.from,
+      to: flight.to,
+      toCity: flight.toCity,
+      trip: flight.trip,
+      cabin: flight.cabin,
+      adults: flight.adults,
+      outbound: flight.outbound,
+      inbound: flight.inbound || null,
+      fare: flight.fare,
+      baggage: flight.baggage,
+    },
+    contact: {
+      name: String(contact.name).trim(),
+      email: String(contact.email).trim().toLowerCase(),
+      phone: String(contact.phone).trim(),
+      notes: contact.notes ? String(contact.notes).slice(0, 500) : "",
+    },
+    passengers: passengers.map((p) => ({
+      firstName: String(p.firstName).trim(),
+      lastName: String(p.lastName).trim(),
+      birthDate: p.birthDate,
+      document: p.document ? String(p.document).trim() : "",
+      documentExpiry: p.documentExpiry || null,
+      gender: p.gender || "MALE",
+      type: p.type || "adult",
+    })),
+    agency: {
+      name: "YouFly Chișinău",
+      phone: "+373 22 000 000",
+      email: "support@youfly.md",
+      whatsapp: "+37369000000",
+      address: "Chișinău, Moldova",
+      holdHours: 24,
+    },
+    nextSteps: [
+      "Cerere înregistrată pe preț live Duffel (încă fără e-ticket).",
+      `Cod client: ${ref}`,
+      offerId ? `Duffel offer: ${offerId}` : "Re-caută ruta în Duffel Dashboard.",
+      expires ? `Oferta expiră: ${expires}` : "Emite biletul rapid — ofertele expiră.",
+      paymentMethod === "whatsapp"
+        ? "Clientul te contactează pe WhatsApp — confirmă plata, apoi ticket în Duffel."
+        : paymentMethod === "transfer"
+          ? "Așteaptă transferul bancar, apoi emite biletul în Duffel."
+          : paymentMethod === "office"
+            ? "Clientul plătește la birou — apoi emite biletul în Duffel."
+            : "După confirmarea plății, emite biletul din Duffel Dashboard (Orders).",
+      "Notă: Duffel Payments (card în platformă) NU mai e disponibil pentru Moldova.",
+    ],
+  };
+}
+
+/** Instant ticket from Duffel Balance (test mode free; live needs funded balance). */
+async function bookDuffelTicket({ flight, contact, passengers, paymentMethod }) {
   if (!flight.duffelOfferId && !flight.duffelOffer?.id) {
     throw new Error("Oferta nu conține ID Duffel — reîncearcă căutarea.");
   }
@@ -63,7 +159,7 @@ async function bookDuffel({ flight, contact, passengers, paymentMethod }) {
 
   return {
     ref: String(ref),
-    status: order.synced_at ? "duffel_confirmed" : "duffel_order_created",
+    status: "duffel_ticketed",
     paymentMethod,
     createdAt: new Date().toISOString(),
     source: "duffel",
@@ -114,10 +210,10 @@ async function bookDuffel({ flight, contact, passengers, paymentMethod }) {
     },
     nextSteps: [
       duffel.isTestToken()
-        ? "Comandă Duffel TEST (sandbox) — nu e bilet real pe aeroline."
-        : "Comandă Duffel LIVE — verificare e-ticket în dashboard Duffel.",
+        ? "Bilet TEST Duffel (sandbox) — nu e bilet real."
+        : "Bilet emis via Duffel Balance — verifică PNR în dashboard.",
       `Referință: ${ref}`,
-      order.booking_reference ? `PNR / booking reference: ${order.booking_reference}` : "PNR în curs de sincronizare.",
+      order.booking_reference ? `PNR: ${order.booking_reference}` : "PNR în sincronizare.",
     ],
     rawOrder: order,
   };
@@ -376,31 +472,39 @@ module.exports = async function handler(req, res) {
   let amadeusError = null;
   let duffelError = null;
 
-  const canDuffel =
+  const isDuffelOffer =
     !forceLocal &&
     duffel.configured() &&
     (flight.source === "duffel" || flight.duffelOfferId || flight.duffelOffer);
 
+  // Instant ticketing only when explicitly requested AND allowed (test token or env flag).
+  // Live Moldova: Duffel Payments is dead → default is agency hold, then ticket after pay.
+  const wantInstantTicket = paymentMethod === "ticket_balance";
+  const allowBalanceTicket =
+    wantInstantTicket && (duffel.isTestToken() || process.env.DUFFEL_ALLOW_BALANCE_ORDERS === "true");
+
   const canAmadeus =
     !forceLocal &&
-    !canDuffel &&
+    !isDuffelOffer &&
     amadeus.configured() &&
     (flight.source === "amadeus" || flight.amadeusOffer);
 
-  if (canDuffel) {
+  if (isDuffelOffer && allowBalanceTicket) {
     try {
-      booking = await bookDuffel({ flight, contact, passengers, paymentMethod });
+      booking = await bookDuffelTicket({ flight, contact, passengers, paymentMethod });
     } catch (e) {
       duffelError = e.message || String(e);
-      booking = bookLocal({ flight, contact, passengers, paymentMethod });
+      booking = bookDuffelHold({ flight, contact, passengers, paymentMethod: "hold" });
       booking.duffelError = duffelError;
       booking.nextSteps = [
-        `Duffel booking a eșuat: ${duffelError}`,
-        "Rezervarea a fost salvată ca hold agenție YouFly.",
+        `Emitere automată eșuată (Balance): ${duffelError}`,
+        "Cererea a fost salvată ca HOLD — emite manual după plată.",
         `Cod: ${booking.ref}`,
-        "Ofertele Duffel expiră rapid — caută din nou și rezervă imediat.",
       ];
     }
+  } else if (isDuffelOffer) {
+    // Default sales path for Moldova / live Duffel without Payments
+    booking = bookDuffelHold({ flight, contact, passengers, paymentMethod });
   } else if (canAmadeus) {
     try {
       booking = await bookAmadeus({ flight, contact, passengers, paymentMethod });

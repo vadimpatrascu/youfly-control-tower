@@ -333,13 +333,13 @@
           <label>Prenume<input id="p${i}fn" required autocomplete="given-name" value="${p.firstName || ""}"></label>
           <label>Nume<input id="p${i}ln" required autocomplete="family-name" value="${p.lastName || ""}"></label>
           <label>Data nașterii<input id="p${i}bd" type="date" required value="${p.birthDate || ""}"></label>
-          <label>Sex (Amadeus)
+          <label>Sex
             <select id="p${i}gd">
               <option value="MALE"${p.gender !== "FEMALE" ? " selected" : ""}>Masculin</option>
               <option value="FEMALE"${p.gender === "FEMALE" ? " selected" : ""}>Feminin</option>
             </select>
           </label>
-          <label>Pașaport (recomandat e-ticket)<input id="p${i}doc" placeholder="nr. pașaport" value="${p.document || ""}"></label>
+          <label>Pașaport (pentru emitere bilet)<input id="p${i}doc" placeholder="nr. pașaport" value="${p.document || ""}"></label>
           <label>Expirare pașaport<input id="p${i}exp" type="date" value="${p.documentExpiry || "2030-12-31"}"></label>
         </div>
       </fieldset>`
@@ -365,17 +365,17 @@
         </fieldset>
         ${paxFields}
         <fieldset class="yf-fieldset">
-          <legend>Plată / confirmare</legend>
-          <label class="yf-radio"><input type="radio" name="pay" value="hold" checked> Hold 24h — rezervăm locul, plătești după confirmare</label>
-          <label class="yf-radio"><input type="radio" name="pay" value="whatsapp"> WhatsApp agent — finalizare live</label>
-          <label class="yf-radio"><input type="radio" name="pay" value="office"> Plată la birou YouFly (Chișinău)</label>
-          <label class="yf-radio"><input type="radio" name="pay" value="transfer"> Transfer bancar</label>
-          <label class="yf-radio"><input type="radio" name="pay" value="card"> Card online (link pe email)</label>
+          <legend>Cum plătești (agenție YouFly)</legend>
+          <p class="yf-pay-note">Prețul e din Duffel (live). Cardul în Duffel Payments <b>nu mai e disponibil</b> (MD). Fluxul corect: cerere → plată la tine → agent emite biletul.</p>
+          <label class="yf-radio"><input type="radio" name="pay" value="whatsapp" checked> <b>WhatsApp</b> — vorbești cu agentul, plătești, primești biletul</label>
+          <label class="yf-radio"><input type="radio" name="pay" value="hold"> <b>Hold 24h</b> — păstrăm oferta, plătești după confirmare</label>
+          <label class="yf-radio"><input type="radio" name="pay" value="transfer"> <b>Transfer bancar</b> — apoi emitere e-ticket</label>
+          <label class="yf-radio"><input type="radio" name="pay" value="office"> <b>La birou</b> Chișinău — cash/card la agenție</label>
         </fieldset>
-        <label class="yf-check"><input type="checkbox" id="bkTerms" required> Accept <button type="button" class="yf-link" id="yfTermsBtn">Termenii</button> și politica de confidențialitate. Prețul final se confirmă la emiterea biletului.</label>
+        <label class="yf-check"><input type="checkbox" id="bkTerms" required> Accept <button type="button" class="yf-link" id="yfTermsBtn">Termenii</button>. Prețul final se confirmă la emiterea biletului.</label>
         <div class="yf-actions">
           <button type="button" class="yf-btn ghost" id="bkBack">← Oferte</button>
-          <button type="submit" class="yf-btn" id="bkSubmit"${state.loading ? " disabled" : ""}>${state.loading ? "Se trimite…" : "Confirmă rezervarea →"}</button>
+          <button type="submit" class="yf-btn" id="bkSubmit"${state.loading ? " disabled" : ""}>${state.loading ? "Se trimite…" : "Trimite cererea de rezervare →"}</button>
         </div>
       </form>`;
 
@@ -719,6 +719,20 @@
       }
       .yf-badge.amd { background: rgba(47,191,143,0.18); color: #2fbf8f; border: 1px solid rgba(47,191,143,0.35); }
       .yf-badge.syn { background: rgba(247,242,232,0.08); color: rgba(247,242,232,0.45); border: 1px solid rgba(247,242,232,0.12); }
+      .yf-pay-note {
+        font-size: 12px; line-height: 1.45; color: rgba(247,242,232,0.55);
+        margin: 0 0 12px; padding: 10px 12px; border-radius: 10px;
+        background: rgba(255,107,74,0.08); border: 1px solid rgba(255,107,74,0.2);
+      }
+      .yf-how {
+        max-width: 1320px; margin: 0 auto 24px; padding: 16px 20px;
+        border: 1px solid rgba(47,191,143,0.25); border-radius: 16px;
+        background: rgba(47,191,143,0.06); color: rgba(247,242,232,0.8);
+        font-size: 14px; line-height: 1.5;
+      }
+      .yf-how b { color: #2fbf8f; }
+      .yf-how ol { margin: 8px 0 0 18px; }
+      .yf-how code { font-family: var(--font-mono, monospace); font-size: 12px; color: #ff6b4a; }
 
       .yf-btn {
         appearance: none; border: 0; border-radius: 999px;
@@ -805,6 +819,25 @@
     document.head.appendChild(s);
   }
 
+  function injectHowToSell() {
+    if ($("#yfHow")) return;
+    const hero = document.querySelector(".hero") || document.querySelector("section");
+    if (!hero) return;
+    const box = document.createElement("div");
+    box.id = "yfHow";
+    box.className = "yf-how";
+    box.innerHTML = `
+      <b>Cum vinzi bilet real (YouFly + Duffel)</b>
+      <ol>
+        <li><b>Client caută</b> — prețuri live din Duffel (badge DUFFEL LIVE).</li>
+        <li><b>Trimite cererea</b> — WhatsApp / hold / transfer / birou (fără card Duffel — Payments e închis).</li>
+        <li><b>Încasezi banii</b> (transfer, cash, card la birou, Stripe al tău).</li>
+        <li><b>Emite biletul</b> în <a href="https://app.duffel.com" target="_blank" rel="noopener">Duffel Dashboard</a> (Orders) folosind oferta / re-search pe RMO.</li>
+      </ol>
+      <div style="margin-top:8px;opacity:.75">Chișinău în Duffel = cod <code>RMO</code> (UI poate arăta KIV).</div>`;
+    hero.parentNode.insertBefore(box, hero.nextSibling);
+  }
+
   function boot() {
     injectStyles();
     ensureShell();
@@ -812,6 +845,7 @@
     enhanceNav();
     enhanceNewsletter();
     enhanceFooterLegal();
+    injectHowToSell();
     // global hook
     window.YouFlySales = { search: runSearch, open: openSales, close: closeSales };
   }
