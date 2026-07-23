@@ -185,6 +185,7 @@
       lastName: "",
       birthDate: "",
       document: "",
+      gender: "MALE",
       type: "adult",
     }));
     setStep("book");
@@ -202,6 +203,10 @@
       lastName: $(`#p${i}ln`)?.value.trim(),
       birthDate: $(`#p${i}bd`)?.value,
       document: $(`#p${i}doc`)?.value.trim(),
+      documentExpiry: $(`#p${i}exp`)?.value || "2030-12-31",
+      gender: $(`#p${i}gd`)?.value || "MALE",
+      nationality: "MD",
+      issuanceCountry: "MD",
       type: "adult",
     }));
 
@@ -264,15 +269,19 @@
         const ret = r.inbound
           ? `<div class="yf-leg muted">↩ ${r.inbound.depart} ${r.inbound.from}→${r.inbound.to} · ${r.inbound.airline} ${r.inbound.flightNo}</div>`
           : "";
+        const srcBadge =
+          r.source === "amadeus"
+            ? `<span class="yf-badge amd">AMADEUS LIVE</span>`
+            : `<span class="yf-badge syn">AGENȚIE</span>`;
         return `
         <article class="yf-offer" data-id="${r.id}">
           <div class="yf-offer-top">
             <img src="${logoUrl(o.logo)}" alt="${o.airline}" width="28" height="28" onerror="this.style.opacity=.2">
             <div>
               <strong>${o.airline}</strong>
-              <div class="meta">${o.flightNo} · ${o.aircraft} · ${o.stops ? "1 escală" : "direct"}</div>
+              <div class="meta">${o.flightNo} · ${o.aircraft || "—"} · ${o.stops ? (o.stops + " escală") : "direct"} ${srcBadge}</div>
             </div>
-            <div class="seats">${r.seatsLeft} locuri</div>
+            <div class="seats">${r.seatsLeft != null ? r.seatsLeft + " locuri" : "live"}</div>
           </div>
           <div class="yf-times">
             <div><b>${o.depart}</b><span>${o.from}</span></div>
@@ -293,10 +302,11 @@
       })
       .join("");
 
+    const amdCount = state.results.filter((r) => r.source === "amadeus").length;
     $("#yfBody").innerHTML = `
       <div class="yf-summary-bar">
         <span>${state.results.length} oferte · ${state.trip === "round" ? "dus-întors" : "dus"} · ${state.depart}${state.trip === "round" ? " → " + state.return : ""}</span>
-        <span>${state.promo ? "Promo: " + state.promo : "Fără promo"}</span>
+        <span>${amdCount ? amdCount + " Amadeus live" : "fallback agenție"} · ${state.promo ? "Promo " + state.promo : "fără promo"}</span>
       </div>
       <div class="yf-offers">${rows}</div>`;
     $$(".yf-offer .pick").forEach((btn) => {
@@ -321,7 +331,14 @@
           <label>Prenume<input id="p${i}fn" required autocomplete="given-name" value="${p.firstName || ""}"></label>
           <label>Nume<input id="p${i}ln" required autocomplete="family-name" value="${p.lastName || ""}"></label>
           <label>Data nașterii<input id="p${i}bd" type="date" required value="${p.birthDate || ""}"></label>
-          <label>Serie pașaport / buletin<input id="p${i}doc" placeholder="opțional acum" value="${p.document || ""}"></label>
+          <label>Sex (Amadeus)
+            <select id="p${i}gd">
+              <option value="MALE"${p.gender !== "FEMALE" ? " selected" : ""}>Masculin</option>
+              <option value="FEMALE"${p.gender === "FEMALE" ? " selected" : ""}>Feminin</option>
+            </select>
+          </label>
+          <label>Pașaport (recomandat e-ticket)<input id="p${i}doc" placeholder="nr. pașaport" value="${p.document || ""}"></label>
+          <label>Expirare pașaport<input id="p${i}exp" type="date" value="${p.documentExpiry || "2030-12-31"}"></label>
         </div>
       </fieldset>`
       )
@@ -693,6 +710,13 @@
       .yf-offer-bot .price b { font-size: 1.35rem; color: #ff6b4a; display: block; }
       .yf-offer-bot .price s { color: rgba(247,242,232,0.35); font-size: 12px; margin-right: 6px; }
       .yf-offer-bot .price small { font-size: 10px; color: rgba(247,242,232,0.4); }
+      .yf-badge {
+        display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 999px;
+        font-family: var(--font-mono, monospace); font-size: 9px; letter-spacing: 0.06em;
+        vertical-align: middle;
+      }
+      .yf-badge.amd { background: rgba(47,191,143,0.18); color: #2fbf8f; border: 1px solid rgba(47,191,143,0.35); }
+      .yf-badge.syn { background: rgba(247,242,232,0.08); color: rgba(247,242,232,0.45); border: 1px solid rgba(247,242,232,0.12); }
 
       .yf-btn {
         appearance: none; border: 0; border-radius: 999px;
