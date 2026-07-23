@@ -6,6 +6,7 @@
 
 const crypto = require("crypto");
 const amadeus = require("./lib/amadeus");
+const duffel = require("./lib/duffel");
 
 function bad(res, code, error, extra = {}) {
   res.statusCode = code;
@@ -37,6 +38,89 @@ function validEmail(e) {
 
 function validPhone(p) {
   return /^\+?[\d\s()-]{7,20}$/.test(p || "");
+}
+
+async function bookDuffel({ flight, contact, passengers, paymentMethod }) {
+  if (!flight.duffelOfferId && !flight.duffelOffer?.id) {
+    throw new Error("Oferta nu conține ID Duffel — reîncearcă căutarea.");
+  }
+  const offerId = flight.duffelOfferId || flight.duffelOffer.id;
+  const paxIds = flight.duffelPassengerIds || [];
+  if (!paxIds.length) {
+    throw new Error("Lipsesc passenger IDs Duffel — reîncearcă căutarea.");
+  }
+  const duffelPassengers = duffel.buildPassengersForOrder(paxIds, passengers, contact);
+  const order = await duffel.createOrder({
+    offerId,
+    passengers: duffelPassengers,
+    paymentAmount: flight.fare?.rawAmount,
+    paymentCurrency: flight.fare?.rawCurrency || flight.fare?.currency,
+  });
+
+  const ref = order.booking_reference || order.id || `DFL-${crypto.randomBytes(3).toString("hex").toUpperCase()}`;
+  const total = parseFloat(order.total_amount || flight.fare?.total || 0);
+  const currency = order.total_currency || flight.fare?.currency || "EUR";
+
+  return {
+    ref: String(ref),
+    status: order.synced_at ? "duffel_confirmed" : "duffel_order_created",
+    paymentMethod,
+    createdAt: new Date().toISOString(),
+    source: "duffel",
+    duffel: {
+      orderId: order.id,
+      bookingReference: order.booking_reference,
+      liveMode: order.live_mode,
+      testMode: duffel.isTestToken(),
+    },
+    currency,
+    total: Math.round(total),
+    displayTotal: currency === "EUR" ? `€${Math.round(total)}` : `${Math.round(total)} ${currency}`,
+    promo: flight.fare?.promo || null,
+    discount: flight.fare?.discount || 0,
+    flight: {
+      id: flight.id,
+      source: "duffel",
+      from: flight.from,
+      to: flight.to,
+      toCity: flight.toCity,
+      trip: flight.trip,
+      cabin: flight.cabin,
+      adults: flight.adults,
+      outbound: flight.outbound,
+      inbound: flight.inbound || null,
+      fare: flight.fare,
+      baggage: flight.baggage,
+    },
+    contact: {
+      name: String(contact.name).trim(),
+      email: String(contact.email).trim().toLowerCase(),
+      phone: String(contact.phone).trim(),
+      notes: contact.notes ? String(contact.notes).slice(0, 500) : "",
+    },
+    passengers: passengers.map((p) => ({
+      firstName: String(p.firstName).trim(),
+      lastName: String(p.lastName).trim(),
+      birthDate: p.birthDate,
+      document: p.document ? String(p.document).trim() : "",
+      gender: p.gender || "MALE",
+      type: p.type || "adult",
+    })),
+    agency: {
+      name: "YouFly Chișinău",
+      phone: "+373 22 000 000",
+      email: "support@youfly.md",
+      whatsapp: "+37369000000",
+    },
+    nextSteps: [
+      duffel.isTestToken()
+        ? "Comandă Duffel TEST (sandbox) — nu e bilet real pe aeroline."
+        : "Comandă Duffel LIVE — verificare e-ticket în dashboard Duffel.",
+      `Referință: ${ref}`,
+      order.booking_reference ? `PNR / booking reference: ${order.booking_reference}` : "PNR în curs de sincronizare.",
+    ],
+    rawOrder: order,
+  };
 }
 
 async function bookAmadeus({ flight, contact, passengers, paymentMethod }) {
@@ -290,24 +374,44 @@ module.exports = async function handler(req, res) {
 
   let booking;
   let amadeusError = null;
+  let duffelError = null;
+
+  const canDuffel =
+    !forceLocal &&
+    duffel.configured() &&
+    (flight.source === "duffel" || flight.duffelOfferId || flight.duffelOffer);
+
   const canAmadeus =
     !forceLocal &&
+    !canDuffel &&
     amadeus.configured() &&
     (flight.source === "amadeus" || flight.amadeusOffer);
 
-  if (canAmadeus) {
+  if (canDuffel) {
+    try {
+      booking = await bookDuffel({ flight, contact, passengers, paymentMethod });
+    } catch (e) {
+      duffelError = e.message || String(e);
+      booking = bookLocal({ flight, contact, passengers, paymentMethod });
+      booking.duffelError = duffelError;
+      booking.nextSteps = [
+        `Duffel booking a eșuat: ${duffelError}`,
+        "Rezervarea a fost salvată ca hold agenție YouFly.",
+        `Cod: ${booking.ref}`,
+        "Ofertele Duffel expiră rapid — caută din nou și rezervă imediat.",
+      ];
+    }
+  } else if (canAmadeus) {
     try {
       booking = await bookAmadeus({ flight, contact, passengers, paymentMethod });
     } catch (e) {
       amadeusError = e.message || String(e);
-      // Soft-fail to agency hold so sales continue
       booking = bookLocal({ flight, contact, passengers, paymentMethod });
       booking.amadeusError = amadeusError;
       booking.nextSteps = [
         `Amadeus booking a eșuat: ${amadeusError}`,
         "Rezervarea a fost salvată ca hold agenție YouFly.",
         `Cod: ${booking.ref}`,
-        "Reîncearcă căutarea (ofertele Amadeus expiră rapid) sau contactează support@youfly.md",
       ];
     }
   } else {
@@ -337,6 +441,9 @@ module.exports = async function handler(req, res) {
       booking,
       message: `Rezervare creată: ${booking.ref}`,
       meta: {
+        duffelConfigured: duffel.configured(),
+        duffelUsed: booking.source === "duffel",
+        duffelError,
         amadeusConfigured: amadeus.configured(),
         amadeusUsed: booking.source === "amadeus",
         amadeusError,

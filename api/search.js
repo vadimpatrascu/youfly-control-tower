@@ -5,6 +5,7 @@
  */
 
 const amadeus = require("./lib/amadeus");
+const duffel = require("./lib/duffel");
 
 const ROUTES = {
   LTN: { city: "Londra", base: 39, dur: 210, airlines: ["5F", "W6", "TK"] },
@@ -246,10 +247,43 @@ module.exports = async function handler(req, res) {
 
   let results = [];
   let source = "youfly_synthetic";
+  let duffelError = null;
   let amadeusError = null;
   let amadeusHost = null;
+  let duffelMeta = {};
 
-  if (amadeus.configured()) {
+  // 1) Duffel (free test mode) preferred — Amadeus SS portal is decommissioned
+  if (duffel.configured()) {
+    try {
+      const found = await duffel.searchOffers({
+        from,
+        to,
+        depart: q.depart,
+        returnDate: trip === "round" ? q.return || undefined : undefined,
+        adults,
+        cabin,
+        toCity,
+      });
+      results = found.offers.map((o) => ({
+        ...o,
+        fare: applyPromo(o.fare, promo, adults),
+        toCity,
+        duffelPassengerIds: found.passengerIds,
+        duffelOfferRequestId: found.offerRequestId,
+      }));
+      source = "duffel";
+      duffelMeta = {
+        offerRequestId: found.offerRequestId,
+        liveMode: found.liveMode,
+        testToken: duffel.isTestToken(),
+      };
+    } catch (e) {
+      duffelError = e.message || String(e);
+    }
+  }
+
+  // 2) Amadeus (only if still have enterprise/old keys)
+  if (!results.length && amadeus.configured()) {
     try {
       amadeusHost = amadeus.host();
       const { offers } = await amadeus.searchFlightOffers({
@@ -271,35 +305,11 @@ module.exports = async function handler(req, res) {
       source = "amadeus";
     } catch (e) {
       amadeusError = e.message || String(e);
-      results = syntheticSearch({
-        from,
-        to,
-        depart: q.depart,
-        returnDate: q.return,
-        trip,
-        adults,
-        cabin,
-        promo,
-        toCity,
-      });
-      source = "youfly_synthetic_fallback";
     }
-  } else {
-    results = syntheticSearch({
-      from,
-      to,
-      depart: q.depart,
-      returnDate: q.return,
-      trip,
-      adults,
-      cabin,
-      promo,
-      toCity,
-    });
   }
 
-  // If Amadeus returned empty, fall back so UI still sells
-  if (!results.length && source === "amadeus") {
+  // 3) Synthetic agency inventory (always available)
+  if (!results.length) {
     results = syntheticSearch({
       from,
       to,
@@ -311,8 +321,22 @@ module.exports = async function handler(req, res) {
       promo,
       toCity,
     });
-    source = "youfly_synthetic_empty_amadeus";
+    source =
+      duffel.configured() || amadeus.configured()
+        ? "youfly_synthetic_fallback"
+        : "youfly_synthetic";
   }
+
+  const note =
+    source === "duffel"
+      ? duffel.isTestToken()
+        ? "Duffel TEST mode (free sandbox — Duffel Airways). Set live token for real airlines."
+        : "Duffel LIVE airline inventory."
+      : source === "amadeus"
+        ? "Amadeus inventory."
+        : duffelError
+          ? `Duffel error → agency fallback: ${duffelError}`
+          : "Set DUFFEL_ACCESS_TOKEN (free test token from app.duffel.com) for supplier offers.";
 
   res.statusCode = 200;
   res.end(
@@ -324,16 +348,15 @@ module.exports = async function handler(req, res) {
       results,
       meta: {
         source,
+        duffelConfigured: duffel.configured(),
+        duffelTestMode: duffel.configured() ? duffel.isTestToken() : null,
+        duffelError,
+        duffelMeta,
         amadeusConfigured: amadeus.configured(),
         amadeusHost: amadeus.configured() ? amadeusHost : null,
         amadeusError,
         generatedAt: new Date().toISOString(),
-        note:
-          source === "amadeus"
-            ? "Tarife live Amadeus Self-Service."
-            : amadeus.configured()
-              ? `Amadeus error → fallback: ${amadeusError}`
-              : "Set AMADEUS_CLIENT_ID + AMADEUS_CLIENT_SECRET for live airline inventory.",
+        note,
       },
     })
   );

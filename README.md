@@ -24,23 +24,28 @@ Sales-ready flight booking UI for Chișinău (KIV) + live ADS-B radar.
 | `/api/contact` | POST | Newsletter / leads |
 | `/api/live-flights` | GET | Live ADS-B bookable airlines |
 
-### Amadeus Self-Service (live inventory + e-ticket orders)
+### Free supplier: Duffel (recommended)
 
-1. Create app: https://developers.amadeus.com  
-2. Copy **API Key** → `AMADEUS_CLIENT_ID`, **API Secret** → `AMADEUS_CLIENT_SECRET`  
-3. On Vercel → Project → Settings → Environment Variables (Production):
+Amadeus free Self-Service was **shut down 17 Jul 2026**. Use **Duffel** instead:
 
-| Variable | Example |
-|----------|---------|
-| `AMADEUS_CLIENT_ID` | your key |
-| `AMADEUS_CLIENT_SECRET` | your secret |
-| `AMADEUS_HOSTNAME` | `test.api.amadeus.com` (sandbox) or `api.amadeus.com` (prod) |
+1. Sign up free: https://app.duffel.com/join  
+2. Dashboard → **Developers → Access tokens → New token** (stay in **Test mode**)  
+3. Copy token (`duffel_test_…`)  
+4. Vercel → Project → Env → Production:
 
-4. Redeploy. Check: https://youfly-control-tower.vercel.app/api/amadeus-status  
+| Variable | Value |
+|----------|--------|
+| `DUFFEL_ACCESS_TOKEN` | `duffel_test_…` |
 
-- **Search** uses Flight Offers Search v2  
-- **Book** uses Flight Offers Price v1 → Flight Create Orders v1  
-- Without keys: synthetic agency offers (fallback)  
+5. Redeploy. Check: https://youfly-control-tower.vercel.app/api/supplier-status  
+
+- **Test mode = free** (sandbox / Duffel Airways — full API flow, not real PNR)  
+- **Live mode** = real airlines, pay per order (not free)  
+- Without token: agency/synthetic offers still work  
+
+### Amadeus
+
+Only if you have **Enterprise** credentials (`AMADEUS_CLIENT_ID` / `SECRET`). Free self-service is gone.  
 
 ### Optional env (Vercel)
 

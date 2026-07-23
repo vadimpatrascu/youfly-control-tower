@@ -270,9 +270,11 @@
           ? `<div class="yf-leg muted">↩ ${r.inbound.depart} ${r.inbound.from}→${r.inbound.to} · ${r.inbound.airline} ${r.inbound.flightNo}</div>`
           : "";
         const srcBadge =
-          r.source === "amadeus"
-            ? `<span class="yf-badge amd">AMADEUS LIVE</span>`
-            : `<span class="yf-badge syn">AGENȚIE</span>`;
+          r.source === "duffel"
+            ? `<span class="yf-badge amd">DUFFEL ${r.liveMode === false ? "TEST" : "LIVE"}</span>`
+            : r.source === "amadeus"
+              ? `<span class="yf-badge amd">AMADEUS</span>`
+              : `<span class="yf-badge syn">AGENȚIE</span>`;
         return `
         <article class="yf-offer" data-id="${r.id}">
           <div class="yf-offer-top">
@@ -302,11 +304,11 @@
       })
       .join("");
 
-    const amdCount = state.results.filter((r) => r.source === "amadeus").length;
+    const liveCount = state.results.filter((r) => r.source === "duffel" || r.source === "amadeus").length;
     $("#yfBody").innerHTML = `
       <div class="yf-summary-bar">
         <span>${state.results.length} oferte · ${state.trip === "round" ? "dus-întors" : "dus"} · ${state.depart}${state.trip === "round" ? " → " + state.return : ""}</span>
-        <span>${amdCount ? amdCount + " Amadeus live" : "fallback agenție"} · ${state.promo ? "Promo " + state.promo : "fără promo"}</span>
+        <span>${liveCount ? liveCount + " supplier" : "fallback agenție"} · ${state.promo ? "Promo " + state.promo : "fără promo"}</span>
       </div>
       <div class="yf-offers">${rows}</div>`;
     $$(".yf-offer .pick").forEach((btn) => {
