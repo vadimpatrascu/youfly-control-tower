@@ -167,6 +167,13 @@ function mapOffer(offer, query) {
   };
 }
 
+/** Chișinău: UI uses KIV historically; IATA/Duffel use RMO */
+function normalizeIata(code) {
+  const c = String(code || "").toUpperCase();
+  if (c === "KIV") return "RMO";
+  return c;
+}
+
 async function searchOffers({
   from,
   to,
@@ -176,18 +183,20 @@ async function searchOffers({
   cabin = "economy",
   toCity,
 }) {
+  const origin = normalizeIata(from);
+  const dest = normalizeIata(to);
   const passengers = Array.from({ length: adults }, () => ({ type: "adult" }));
   const slices = [
     {
-      origin: from,
-      destination: to,
+      origin,
+      destination: dest,
       departure_date: depart,
     },
   ];
   if (returnDate) {
     slices.push({
-      origin: to,
-      destination: from,
+      origin: dest,
+      destination: origin,
       departure_date: returnDate,
     });
   }
@@ -204,9 +213,16 @@ async function searchOffers({
     },
   });
 
-  const offers = (data.data?.offers || []).map((o) =>
-    mapOffer(o, { from, to, toCity, adults, cabin })
-  );
+  const offers = (data.data?.offers || []).map((o) => {
+    const mapped = mapOffer(o, { from: origin, to: dest, toCity, adults, cabin });
+    // Keep UI branding as KIV when user searched KIV
+    if (String(from).toUpperCase() === "KIV") {
+      mapped.from = "KIV";
+      if (mapped.outbound) mapped.outbound.from = mapped.outbound.from === "RMO" ? "KIV" : mapped.outbound.from;
+      if (mapped.inbound) mapped.inbound.to = mapped.inbound.to === "RMO" ? "KIV" : mapped.inbound.to;
+    }
+    return mapped;
+  });
   // cheapest first
   offers.sort((a, b) => a.fare.total - b.fare.total);
 
