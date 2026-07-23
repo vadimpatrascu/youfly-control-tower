@@ -2,16 +2,25 @@
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<meta name="format-detection" content="telephone=yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="YouFly">
+<meta name="application-name" content="YouFly">
 <title>YouFly ∞ — Bilete avion din Chișinău | Rezervare online</title>
 <meta name="description" content="Compară și rezervă zboruri din Chișinău (KIV). Prețuri transparente, hold 24h, suport WhatsApp. Promo ZBOR30 până la −30%.">
-<meta name="theme-color" content="#0B1524">
+<meta name="theme-color" content="#0B1524" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0B1524" media="(prefers-color-scheme: light)">
 <meta property="og:title" content="YouFly ∞ — Zboruri din Chișinău">
 <meta property="og:description" content="Caută, compară și rezervă bilete aeriene. Flight desk live + radar ADS-B.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://youfly-control-tower.vercel.app/">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://youfly-control-tower.vercel.app/">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect fill='%230B1524' width='180' height='180' rx='40'/%3E%3Crect fill='%23ff6b4a' x='72' y='72' width='36' height='36' transform='rotate(45 90 90)'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Type stack: Sora (UI) · Bricolage Grotesque (display) · Instrument Serif (editorial) · Space Mono (ops/ATC) -->
@@ -80,6 +89,15 @@
 
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* iOS / Android chrome */
+  --sat: env(safe-area-inset-top, 0px);
+  --sar: env(safe-area-inset-right, 0px);
+  --sab: env(safe-area-inset-bottom, 0px);
+  --sal: env(safe-area-inset-left, 0px);
+  --touch: 44px;
+  --nav-h: 64px;
+  --dock-h: 72px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -87,6 +105,8 @@ html {
   scroll-behavior: smooth;
   font-size: 16px;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  height: 100%;
 }
 body {
   font-family: var(--font-sans);
@@ -102,6 +122,27 @@ body {
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
   cursor: none;
+  min-height: 100%;
+  min-height: 100dvh;
+  padding-left: var(--sal);
+  padding-right: var(--sar);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  overscroll-behavior-y: none;
+}
+/* 16px+ inputs prevent iOS Safari auto-zoom on focus */
+input, select, textarea {
+  font-size: 16px;
+  border-radius: 0; /* reset UA */
+}
+button, a, [role="button"] {
+  -webkit-tap-highlight-color: rgba(255,107,74,0.18);
+  touch-action: manipulation;
+}
+@media (hover: none) and (pointer: coarse) {
+  body { cursor: auto; }
+  .cursor, .cursor-dot { display: none !important; }
+  button { cursor: pointer; }
 }
 
 /* Display titles — Bricolage only at large sizes */
@@ -261,6 +302,7 @@ button { cursor: none; border: 0; background: none; }
   font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
   display: flex; align-items: center; justify-content: center; gap: 18px;
   padding: 10px 20px;
+  padding-top: calc(10px + var(--sat));
   position: relative; overflow: hidden;
 }
 .ops-strip .diamond {
@@ -292,7 +334,43 @@ button { cursor: none; border: 0; background: none; }
   max-width: 1320px; margin: 0 auto;
   display: flex; align-items: center; gap: 28px;
   padding: 16px 28px;
+  min-height: var(--nav-h);
 }
+.nav-toggle {
+  display: none;
+  width: var(--touch); height: var(--touch);
+  margin-left: auto;
+  border-radius: 12px;
+  border: 1px solid var(--line-strong);
+  background: rgba(247,242,232,0.04);
+  color: var(--cream);
+  place-items: center;
+  position: relative;
+  z-index: 110;
+  flex: none;
+}
+.nav-toggle span {
+  display: block; width: 18px; height: 2px; background: currentColor;
+  border-radius: 2px; position: relative;
+  transition: transform .25s var(--ease), opacity .2s;
+}
+.nav-toggle span::before, .nav-toggle span::after {
+  content: ""; position: absolute; left: 0; width: 18px; height: 2px;
+  background: currentColor; border-radius: 2px;
+  transition: transform .25s var(--ease), top .25s;
+}
+.nav-toggle span::before { top: -6px; }
+.nav-toggle span::after { top: 6px; }
+.nav-toggle[aria-expanded="true"] span { background: transparent; }
+.nav-toggle[aria-expanded="true"] span::before { top: 0; transform: rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span::after { top: 0; transform: rotate(-45deg); }
+.nav-backdrop {
+  display: none; position: fixed; inset: 0; z-index: 95;
+  background: rgba(4,8,16,0.55); backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.nav-backdrop.show { display: block; }
+body.nav-open { overflow: hidden; }
 .logo {
   display: flex; align-items: center; gap: 10px;
   font-family: var(--font-display);
@@ -321,7 +399,7 @@ button { cursor: none; border: 0; background: none; }
   letter-spacing: -0.01em;
   color: rgba(247,242,232,0.72);
 }
-@media (max-width: 1100px) {
+@media (max-width: 1100px) and (min-width: 861px) {
   .nav-links a:not(.btn-nav) { display: none; }
 }
 .nav-links a { position: relative; transition: color .2s; }
@@ -355,6 +433,7 @@ button { cursor: none; border: 0; background: none; }
   position: relative;
   padding: 28px 28px 48px;
   min-height: calc(100vh - 96px);
+  min-height: calc(100dvh - 96px);
 }
 .hero-stats { padding-bottom: 8px; }
 .hero-canvas {
@@ -1169,25 +1248,30 @@ footer p { margin-top: 14px; font-size: 14px; line-height: 1.6; max-width: 260px
 
 /* Floating dock */
 .dock {
-  position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(120%);
+  position: fixed;
+  bottom: calc(16px + var(--sab));
+  left: 50%; transform: translateX(-50%) translateY(160%);
   z-index: 90;
   display: flex; align-items: center; gap: 10px;
-  background: rgba(10,16,28,0.85); backdrop-filter: blur(18px);
+  background: rgba(10,16,28,0.88); backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
   border: 1px solid var(--line-strong); border-radius: 999px;
   padding: 10px 12px 10px 18px;
   box-shadow: 0 20px 50px rgba(0,0,0,0.45);
   transition: transform .5s var(--ease);
+  max-width: calc(100vw - 32px - var(--sal) - var(--sar));
 }
 .dock.show { transform: translateX(-50%) translateY(0); }
-.dock span { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: rgba(247,242,232,0.6); white-space: nowrap; }
+.dock span { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; color: rgba(247,242,232,0.6); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .dock button {
   background: var(--accent); color: #14100d; font-weight: 800; font-size: 13px;
-  padding: 10px 18px; border-radius: 999px; white-space: nowrap;
+  min-height: var(--touch); padding: 10px 18px; border-radius: 999px; white-space: nowrap;
+  flex: none;
 }
 
 /* Toast */
 .toast {
-  position: fixed; top: 88px; right: 20px; z-index: 200;
+  position: fixed; top: calc(88px + var(--sat)); right: max(16px, var(--sar)); z-index: 200;
   background: var(--panel); border: 1px solid rgba(47,191,143,0.4);
   color: var(--cream); padding: 14px 18px; border-radius: 14px;
   font-size: 14px; box-shadow: var(--shadow);
@@ -1196,6 +1280,256 @@ footer p { margin-top: 14px; font-size: 14px; line-height: 1.6; max-width: 260px
 }
 .toast.show { transform: translateX(0); }
 .toast b { color: var(--mint); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; display: block; margin-bottom: 4px; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   MOBILE — latest iOS (Dynamic Island / home indicator)
+   & Android (gesture nav / cutouts)
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 860px) {
+  :root {
+    --text-hero: clamp(2.15rem, 9.2vw, 3.25rem);
+    --text-section: clamp(1.75rem, 7vw, 2.4rem);
+  }
+
+  .ops-strip {
+    font-size: 11px;
+    gap: 10px;
+    padding: 10px 14px;
+    padding-top: calc(10px + var(--sat));
+    justify-content: flex-start;
+    overflow: hidden;
+  }
+  .ops-strip > span:not(.diamond),
+  .ops-strip > a {
+    white-space: nowrap;
+  }
+  .ops-strip .ticker { display: none; }
+
+  /* backdrop-filter on .nav would trap position:fixed descendants */
+  .nav {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(6, 11, 20, 0.94);
+    overflow: visible;
+  }
+  .nav.scrolled { background: rgba(6, 11, 20, 0.98); }
+
+  .nav-toggle { display: grid; }
+  .nav-inner {
+    padding: 10px 16px;
+    gap: 12px;
+  }
+  .nav-links {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: min(300px, 78vw);
+    margin-left: 0;
+    padding:
+      calc(76px + var(--sat)) 18px
+      calc(28px + var(--sab)) 18px;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 2px;
+    background: #0a1220;
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border-left: 1px solid var(--line-strong);
+    box-shadow: -24px 0 60px rgba(0,0,0,0.55);
+    transform: translateX(105%);
+    transition: transform .35s var(--ease);
+    z-index: 105;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .nav-links.open { transform: translateX(0); }
+  .nav-links a {
+    display: flex !important;
+    align-items: center;
+    min-height: var(--touch);
+    padding: 12px 14px;
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--cream);
+  }
+  .nav-links a::after { display: none; }
+  .nav-links a:active { background: rgba(247,242,232,0.06); }
+  .nav-links .pill {
+    margin: 8px 0;
+    justify-content: center;
+    min-height: 36px;
+  }
+  .nav-links .btn-nav {
+    margin-top: 8px;
+    text-align: center;
+    justify-content: center;
+    min-height: var(--touch);
+    padding: 14px 18px;
+    color: var(--ink) !important;
+    background: var(--cream);
+  }
+  .nav-links .btn-nav:active {
+    background: var(--accent);
+    color: var(--void) !important;
+  }
+
+  .hero {
+    padding: 18px 16px calc(36px + var(--sab));
+    min-height: auto;
+  }
+  .hero-grid {
+    gap: 22px;
+    padding-bottom: 16px;
+  }
+  .hero h1 { margin-top: 14px; }
+  .hero-lead { font-size: 1.05rem; max-width: none; }
+  .hero-stats {
+    gap: 16px 20px;
+    margin-top: 22px;
+  }
+  .stat { min-width: calc(50% - 12px); flex: 1 1 40%; }
+  .stat b { font-size: 1.55rem; }
+
+  .tower-card { border-radius: 22px; }
+  .tower-head { padding: 14px 16px; font-size: 10px; }
+  .tower-body { padding: 16px; }
+  .trip-toggle { width: 100%; }
+  .trip-toggle button {
+    flex: 1;
+    min-height: 40px;
+    padding: 10px 12px;
+  }
+  .field {
+    padding: 14px 14px;
+    border-radius: 14px;
+  }
+  .field input, .field select {
+    font-size: 16px; /* iOS no-zoom */
+    min-height: 28px;
+  }
+  .swap-btn {
+    width: var(--touch); height: var(--touch);
+  }
+  .chip {
+    min-height: 36px;
+    padding: 8px 14px;
+    display: inline-flex; align-items: center;
+  }
+  .search-cta {
+    min-height: 52px;
+    padding: 14px 18px;
+    font-size: 15px;
+    border-radius: 18px;
+  }
+
+  .section-pad { padding: 64px 16px; }
+  .steps { padding: 0 16px 72px; }
+  .reviews { padding: 64px 16px; }
+  .news { padding: 0 16px calc(72px + var(--sab)); }
+  footer {
+    padding: 48px 16px calc(36px + var(--sab));
+  }
+
+  .map-layout,
+  .deal-grid,
+  .review-grid,
+  .bento,
+  .steps-rail {
+    gap: 14px;
+  }
+
+  .score-seal {
+    margin-left: 0;
+    width: 108px; height: 108px;
+  }
+  .reviews-head { align-items: flex-start; }
+
+  .news-card {
+    padding: 28px 22px 24px;
+    border-radius: 20px;
+    gap: 18px;
+  }
+  .news-card .copy { padding-left: 0; min-width: 0; }
+  .news-card .rivet { display: none; }
+  .news-form {
+    flex-direction: column;
+    min-width: 0;
+    width: 100%;
+  }
+  .news-form input,
+  .news-form button {
+    width: 100%;
+    min-height: var(--touch);
+    font-size: 16px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .footer-bottom .pays { margin-left: 0; }
+
+  .dock {
+    left: 16px; right: 16px;
+    width: auto;
+    max-width: none;
+    transform: translateX(0) translateY(160%);
+    justify-content: space-between;
+    padding: 10px 10px 10px 14px;
+    bottom: calc(14px + var(--sab));
+  }
+  .dock.show { transform: translateX(0) translateY(0); }
+  .dock span { font-size: 10px; max-width: 48%; }
+
+  .toast {
+    left: 16px; right: 16px;
+    max-width: none;
+    top: calc(12px + var(--sat));
+    transform: translateY(-140%);
+  }
+  .toast.show { transform: translateY(0); }
+
+  /* Breathing room above fixed dock + WA */
+  .shell { padding-bottom: calc(88px + var(--sab)); }
+
+  /* Board rows already collapse; ensure touch targets */
+  .board-row { min-height: 56px; }
+  .board-filters button {
+    min-height: 40px;
+    padding: 10px 14px;
+  }
+
+  .dest-card, .deal, .review, .step {
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .ops-strip a { display: none; }
+  .logo { font-size: 1.2rem; }
+  .mini-sky { grid-template-columns: 1fr; }
+  .hero-stats .stat { min-width: 100%; }
+}
+
+/* Coarse pointer: prefer 44px targets everywhere */
+@media (pointer: coarse) {
+  .btn-nav, .search-cta, .chip, .trip-toggle button,
+  .board-filters button, .map-tabs button,
+  .news-form button, .dock button {
+    min-height: var(--touch);
+  }
+  .field input, .field select {
+    font-size: 16px;
+  }
+}
+
+/* Prefer less motion already handled; also disable tilt on touch devices via JS */
+@supports (padding: max(0px)) {
+  .ops-strip { padding-left: max(14px, var(--sal)); padding-right: max(14px, var(--sar)); }
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -1240,10 +1574,14 @@ footer p { margin-top: 14px; font-size: 14px; line-height: 1.6; max-width: 260px
   </div>
 
   <!-- NAV -->
+  <div class="nav-backdrop" id="navBackdrop" hidden></div>
   <header class="nav" id="nav">
     <div class="nav-inner">
       <a href="#" class="logo"><span class="mark"></span>YouFly<em>∞</em></a>
-      <nav class="nav-links">
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Meniu" aria-expanded="false" aria-controls="navLinks">
+        <span></span>
+      </button>
+      <nav class="nav-links" id="navLinks">
         <a href="#harta">Harta cerului</a>
         <a href="#board">Plecări</a>
         <a href="#rute">Rute</a>
@@ -2209,20 +2547,45 @@ document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
 window.addEventListener("scroll", () => {
   const y = window.scrollY;
   document.getElementById("nav").classList.toggle("scrolled", y > 20);
-  document.getElementById("dock").classList.toggle("show", y > 700);
+  document.getElementById("dock").classList.toggle("show", y > 520);
 }, { passive: true });
 
-/* Tilt on tower card */
+/* Mobile nav drawer (iOS / Android) */
+(function mobileNav() {
+  const toggle = document.getElementById("navToggle");
+  const links = document.getElementById("navLinks");
+  const backdrop = document.getElementById("navBackdrop");
+  if (!toggle || !links) return;
+  const setOpen = (open) => {
+    links.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    document.body.classList.toggle("nav-open", open);
+    if (backdrop) {
+      backdrop.hidden = !open;
+      backdrop.classList.toggle("show", open);
+    }
+  };
+  toggle.addEventListener("click", () => setOpen(!links.classList.contains("open")));
+  if (backdrop) backdrop.addEventListener("click", () => setOpen(false));
+  links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setOpen(false)));
+  window.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+  window.addEventListener("resize", () => { if (window.innerWidth > 860) setOpen(false); });
+})();
+
+/* Tilt on tower card — skip on touch / coarse pointer */
 const tower = document.getElementById("tower");
-tower.addEventListener("mousemove", (e) => {
-  const r = tower.getBoundingClientRect();
-  const x = (e.clientX - r.left) / r.width - 0.5;
-  const y = (e.clientY - r.top) / r.height - 0.5;
-  tower.style.transform = `perspective(900px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
-});
-tower.addEventListener("mouseleave", () => {
-  tower.style.transform = "";
-});
+const canTilt = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+if (tower && canTilt) {
+  tower.addEventListener("mousemove", (e) => {
+    const r = tower.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - 0.5;
+    const y = (e.clientY - r.top) / r.height - 0.5;
+    tower.style.transform = `perspective(900px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`;
+  });
+  tower.addEventListener("mouseleave", () => {
+    tower.style.transform = "";
+  });
+}
 
 syncRouteUI();
 </script>

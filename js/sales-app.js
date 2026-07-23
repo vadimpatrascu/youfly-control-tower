@@ -624,14 +624,23 @@
         position: fixed; inset: 0; z-index: 200000;
         background: rgba(4,8,16,0.72);
         backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         display: grid; place-items: center;
         padding: 16px;
+        padding:
+          max(12px, env(safe-area-inset-top, 0px))
+          max(12px, env(safe-area-inset-right, 0px))
+          max(12px, env(safe-area-inset-bottom, 0px))
+          max(12px, env(safe-area-inset-left, 0px));
       }
       .yf-overlay[hidden] { display: none !important; }
       .yf-panel {
         width: min(720px, 100%);
         max-height: min(92vh, 900px);
+        max-height: min(92dvh, 900px);
         overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
         background: linear-gradient(165deg, #0e1930, #0a1220);
         border: 1px solid rgba(247,242,232,0.12);
         border-radius: 22px;
@@ -642,7 +651,9 @@
         display: flex; justify-content: space-between; align-items: flex-start;
         gap: 12px; padding: 20px 22px 8px;
         position: sticky; top: 0; background: rgba(10,18,32,0.95);
-        backdrop-filter: blur(8px); z-index: 2;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 2;
         border-bottom: 1px solid rgba(247,242,232,0.06);
       }
       .yf-kicker {
@@ -651,9 +662,10 @@
       }
       .yf-head h2 { font-size: 1.35rem; letter-spacing: -0.03em; margin: 0; }
       .yf-close {
-        width: 40px; height: 40px; border-radius: 50%;
+        width: 44px; height: 44px; border-radius: 50%;
         border: 1px solid rgba(247,242,232,0.15);
         background: transparent; color: #f7f2e8; font-size: 24px; line-height: 1;
+        flex: none; touch-action: manipulation;
       }
       .yf-steps {
         display: flex; gap: 8px; padding: 12px 22px;
@@ -737,8 +749,10 @@
       .yf-btn {
         appearance: none; border: 0; border-radius: 999px;
         background: linear-gradient(135deg, #ff6b4a, #ff8a4a);
-        color: #1a100c; font-weight: 700; font-size: 14px;
+        color: #1a100c; font-weight: 700; font-size: 15px;
         padding: 12px 18px; cursor: pointer;
+        min-height: 44px; touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
       }
       .yf-btn:disabled { opacity: 0.55; cursor: not-allowed; }
       .yf-btn.ghost {
@@ -769,8 +783,11 @@
       .yf-form label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: rgba(247,242,232,0.55); }
       .yf-form input, .yf-form select, .yf-form textarea {
         background: rgba(0,0,0,0.25); border: 1px solid rgba(247,242,232,0.12);
-        border-radius: 10px; padding: 10px 12px; color: #f7f2e8; font-size: 14px;
+        border-radius: 10px; padding: 12px 14px; color: #f7f2e8; font-size: 16px;
+        min-height: 44px; width: 100%;
+        -webkit-appearance: none; appearance: none;
       }
+      .yf-form textarea { min-height: 96px; resize: vertical; }
       .yf-radio, .yf-check {
         display: flex !important; flex-direction: row !important; align-items: flex-start;
         gap: 10px; margin: 8px 0; font-size: 13px; color: rgba(247,242,232,0.75); cursor: pointer;
@@ -803,13 +820,65 @@
       .yf-toast.err b { color: #ff6b4a; }
 
       .yf-wa {
-        position: fixed; right: 18px; bottom: 22px; z-index: 90;
+        position: fixed;
+        right: max(14px, env(safe-area-inset-right, 0px));
+        bottom: max(22px, calc(14px + env(safe-area-inset-bottom, 0px)));
+        z-index: 91;
         background: #25d366; color: #06240f; font-weight: 800; font-size: 13px;
-        padding: 12px 16px; border-radius: 999px;
+        min-height: 44px; padding: 12px 16px; border-radius: 999px;
         box-shadow: 0 12px 30px rgba(37,211,102,0.35);
         text-decoration: none;
+        display: inline-flex; align-items: center;
+        touch-action: manipulation;
       }
       .yf-wa:hover { filter: brightness(1.05); color: #06240f; }
+      @media (max-width: 860px) {
+        .yf-overlay {
+          place-items: end center;
+          padding: 0;
+        }
+        .yf-panel {
+          width: 100%;
+          max-height: min(94dvh, 100%);
+          border-radius: 22px 22px 0 0;
+          border-bottom: 0;
+          padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+        .yf-head { padding: 16px 16px 8px; }
+        .yf-body { padding: 8px 16px calc(20px + env(safe-area-inset-bottom, 0px)); }
+        .yf-steps {
+          padding: 10px 16px;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          flex-wrap: nowrap;
+          white-space: nowrap;
+        }
+        .yf-offer { padding: 14px; }
+        .yf-times b { font-size: 1.1rem; }
+        .yf-offer-bot { gap: 10px; }
+        .yf-offer-bot .price { width: 100%; text-align: left; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+        .yf-offer-bot .yf-btn.pick { width: 100%; justify-content: center; }
+        .yf-actions { flex-direction: column; }
+        .yf-actions .yf-btn { width: 100%; text-align: center; }
+        .yf-wa {
+          bottom: max(88px, calc(72px + env(safe-area-inset-bottom, 0px)));
+          right: max(12px, env(safe-area-inset-right, 0px));
+          font-size: 12px;
+          padding: 10px 14px;
+        }
+        .yf-toast {
+          left: 12px; right: 12px; max-width: none;
+          top: max(12px, env(safe-area-inset-top, 0px));
+          transform: translateY(-140%);
+        }
+        .yf-toast.show { transform: translateY(0); }
+        .yf-how { margin: 0 12px 16px; padding: 14px 14px; font-size: 13px; }
+        .yf-search-extra { flex-direction: column; }
+        .yf-mini { min-width: 0; }
+      }
+      @media (max-width: 560px) {
+        .yf-grid2 { grid-template-columns: 1fr; }
+      }
       @media print {
         .yf-overlay { position: static; background: #fff; color: #000; }
         .yf-panel { box-shadow: none; border: 0; max-height: none; color: #000; }
